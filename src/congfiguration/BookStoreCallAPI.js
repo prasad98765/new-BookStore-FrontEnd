@@ -42,8 +42,9 @@ export function getSortData(data) {
   console.log("in axios function----> ",data);
 
   return axios({
-    method: "get",
-    url: "http://localhost:3000/ebookstore/sort/"+data
+    method: "Post",
+    url: "http://localhost:3000/ebookstore/sort",
+    data:data
   });
 }
   export function getNoOFBookCount() {

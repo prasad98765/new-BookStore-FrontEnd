@@ -29,7 +29,7 @@ class OrderPlaced extends Component {
         <Navbar />
         <div className="mainDiv">
           <div className="orderImage">
-            <img src={orderImage} />
+            <img src={orderImage} style = {{height : "200px"}} />
           </div>
           {/* <div style={{marginTop:"10%"}}> */}
           <div className="orderMessage">

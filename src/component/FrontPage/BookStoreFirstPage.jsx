@@ -10,6 +10,7 @@ class BookStoreFirstPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      sortfield : null,
       page: 1,
       ALLBOOKS: [],
       noOfRecord: null,
@@ -31,24 +32,21 @@ class BookStoreFirstPage extends Component {
       this.setState({ noOfRecord: res.data.data });
     });
   }
-  componentWillMount() {
-    this.allBooks();
-    this.getNoCount();
-  }
+
   handleSearch = async data => {
     this.setState({ ALLBOOKS: [] });
     this.setState({ ALLBOOKS: data });
   };
-
-  handleSorting = async data => {
-    this.setState({ ALLBOOKS: [] });
-    this.setState({ ALLBOOKS: data });
-  };
-
   handleChange = async (event, value) => {
     await this.setState({ page: value });
     this.allBooks();
+    this.getSorting()
   };
+  componentWillMount() {
+    this.allBooks();
+    this.getNoCount();
+   
+  }
   addToCart = (value) => {
     console.log("check the add to cart button");
   
@@ -67,12 +65,24 @@ class BookStoreFirstPage extends Component {
     this.setState({addToWishList:value});
     this.setState({wishCount:this.setState.wishCount +1 })
   }
+  getSorting = async (data) => {
+    console.log(this.state.sortfield);
+    console.log(this.state.page);
+    
+    
+    APIcall.getSortData({field : this.state.sortfield || data , page : this.state.page}).then(async res => {
+      console.log("ex sorted DAta ===============>",res.data.data);
+      this.setState({ ALLBOOKS: [] });
+      await this.setState({ ALLBOOKS: res.data.data });
+    });
+    await this.setState({sortfield : data})
+  }
 
   render() {
     return (
       <div>
         <TopBar bookList={this.state.ALLBOOKS} value={this.handleSearch} value1 = {this.addToCart} count = {this.state.count} wishCount={this.state.wishCount} login ={this.login}  />
-        <Sorting bookList={this.state.ALLBOOKS} bookcount = {this.state.noOfRecord} value={this.handleSorting} page = {this.state.page} />
+        <Sorting bookList={this.state.ALLBOOKS} bookcount = {this.state.noOfRecord} value={this.handleSorting} page = {this.state.page} sort = {this.getSorting}/>
         <ListOfBooks
           bookList={this.state.ALLBOOKS}
           handleChange={this.handleChange}

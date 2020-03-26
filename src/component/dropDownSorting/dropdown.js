@@ -18,25 +18,18 @@ export default class MenuPopupState extends Component {
 
   highToLowClick = event => {
     this.setState({field : "highToLow"})
-    APIcall.getSortData("highToLow").then(res => {
-      this.props.value(res.data.data);
-    });
+    this.props.sort("highToLow")
   };
 
   lowToHighClick = event => {
     this.setState({field : "lowToHigh"})
-    APIcall.getSortData("lowToHigh").then(res => {
-      this.props.value(res.data.data);
-    });
+    this.props.sort("lowToHigh")
   };
 
   sortArrivalClick = event => {
     this.setState({field : "sortArrival"})
-    APIcall.getSortData("sortArrival").then(res => {
-      this.props.value(res.data.data);
-    });
+    this.props.sort("sortArrival")
   };
-
   render() {
     return (
       <div className="dropdown" style={{ marginLeft: "77%", marginTop:"2%" }}>

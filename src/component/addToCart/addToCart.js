@@ -65,16 +65,6 @@ class CartIcon extends Component {
         this.setState({ item: this.state.item })
         localStorage.setItem("document",JSON.stringify(this.state.item));
     }
-
-    // UNSAFE_componentWillMount() {
-    //     this.condition = 0
-    //     this.documentData = JSON.parse(localStorage.getItem("document"));
-    //     if (localStorage.getItem("document")) {
-    //       this.setState({
-    //         item : this.documentData.Title
-    //     });
-    // }
-    // }
     render() {
      var Books = this.props.history.location.state.map((item, i) => {
             this.state.purchaseBookIndividualCount.push(1)

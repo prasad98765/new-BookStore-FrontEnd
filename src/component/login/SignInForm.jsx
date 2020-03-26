@@ -167,11 +167,11 @@ class SignInForm extends Component {
               <span >{formErrors.PASSWORD}</span>
             )}</div>
           </div>
-
+          </form>
           <div className="FormField">
             <button className="FormField__Button mr-20"style={{marginTop:"10%",marginLeft:"100%"}} onClick = {this.login}>Sign In</button>
           </div>
-        </form>
+        
       </div>
     );
   }
