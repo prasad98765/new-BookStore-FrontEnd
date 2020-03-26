@@ -24,8 +24,6 @@ class OrderPlaced extends Component {
     this.props.history.push({ pathname: "/" });
   };
   render() {
-    console.log("on checkout =====>", this.props.history.location.state.data.Email);
-
     return (
       <div>
         <Navbar />

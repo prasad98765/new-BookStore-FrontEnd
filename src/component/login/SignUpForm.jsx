@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-var login = require('../login/singUpAndSign')
+import { withRouter } from 'react-router-dom';
+
+var login = require("../login/singUpAndSign");
+var APICall = require("../../congfiguration/BookStoreCallAPI");
 const emailRegex = RegExp(
   "^[a-zA-Z0-9]([._+-]{0,1}[a-zA-Z0-9])*[@]{1}[a-zA-Z0-9]{1,}[.]{1}[a-zA-Z]{2,3}([.]{1}[a-zA-Z]{2,3}){0,1}$"
 );
@@ -98,19 +100,41 @@ class SignUpForm extends Component {
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
     }
   }
-
+  submit = () => {
+    var adminDetails = {
+      NAME: this.state.NAME,
+      EMAIL: this.state.EMAIL,
+      PASSWORD: this.state.PASSWORD,
+      MOBILENO: this.state.CONTACT
+    };
+    APICall.adminDetails(adminDetails).then(res => {
+      console.log("after craete data", res.data.data);
+    });
+  };
   render() {
     const { formErrors } = this.state;
     return (
-      <div className="FormCenter">
+      <div
+        className="FormCenter"
+        style={{
+          marginTop: "5%",
+          marginLeft: "30%",
+          height: "auto",
+          width: "50%",
+          borderStyle: "outset"
+        }}
+      >
         <form onSubmit={this.handleSubmit} npValidate className="FormFields">
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="name">
+          <div
+            className="FormField"
+            style={{ marginLeft: "-10%", marginTop: "10%" }}
+          >
+            <label className="" htmlFor="name">
               Full Name
             </label>
             <input
               style={{
-                width: "40%",
+                width: "100%",
                 backgroundColor: "transparent",
                 border: "none",
                 color: "black",
@@ -133,13 +157,14 @@ class SignUpForm extends Component {
             </div>
           </div>
 
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="email">
-              E-Mail Address
-            </label>
+          <div
+            className="FormField"
+            style={{ marginLeft: "-10%", marginTop: "-4%" }}
+          >
+            <label htmlFor="email">E-Mail Address</label>
             <input
               style={{
-                width: "40%",
+                width: "100%",
                 backgroundColor: "transparent",
                 border: "none",
                 color: "black",
@@ -164,13 +189,14 @@ class SignUpForm extends Component {
             </div>
           </div>
 
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="password">
-              Password
-            </label>
+          <div
+            className="FormField"
+            style={{ marginLeft: "-10%", marginTop: "-4%" }}
+          >
+            <label htmlFor="password">Password</label>
             <input
               style={{
-                width: "40%",
+                width: "100%",
                 backgroundColor: "transparent",
                 border: "none",
                 color: "black",
@@ -197,13 +223,14 @@ class SignUpForm extends Component {
             </div>
           </div>
 
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="phone_number">
-              Phone Number
-            </label>
+          <div
+            className="FormField"
+            style={{ marginLeft: "-10%", marginTop: "-4%" }}
+          >
+            <label htmlFor="phone_number">Phone Number</label>
             <input
               style={{
-                width: "40%",
+                width: "100%",
                 backgroundColor: "transparent",
                 border: "none",
                 color: "black",
@@ -229,33 +256,15 @@ class SignUpForm extends Component {
               )}
             </div>
           </div>
-
           <div className="FormField">
-            <label className="FormField__CheckboxLabel">
-              <input
-                className="FormField__Checkbox"
-                type="checkbox"
-                name="hasAgreed"
-                value={this.state.hasAgreed}
-                onChange={this.handleChange}
-              />{" "}
-              I agree all statements in{" "}
-              <a href="" className="FormField__TermsLink">
-                terms of service
-              </a>
-            </label>
-          </div>
-
-          <div className="FormField">
-            <button className="FormField__Button mr-20">Sign Up</button>{""}
-            <Link to="/sign-in" className="FormField__Link">
-              I'm already member
-            </Link>
+            <button className="FormField__Button mr-20" style={{marginTop:"30%",marginLeft:"-130%"}} onClick={this.submit}>
+              Sign Up
+            </button>
+            {""}
           </div>
         </form>
-        
       </div>
     );
   }
 }
-export default SignUpForm;
+export default withRouter(SignUpForm);

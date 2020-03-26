@@ -52,7 +52,7 @@ export function getSortData(data) {
       url: "http://localhost:3000/ebookstore/books/count",
     });
   }
-
+  
   export function userDetails(data) {
     return axios({
       method: "POST",
@@ -64,6 +64,21 @@ export function getSortData(data) {
     return axios({
       method: "POST",
       url: "http://localhost:3000/ebookstore/sendEmail",
+      data:data
+    });
+  }
+  
+  export function login(data) {
+    return axios({
+      method: "POST",
+      url: "http://localhost:3000/ebookstore/adminlogin",
+      data:data
+    });
+  }
+  export function adminDetails(data) {
+    return axios({
+      method: "POST",
+      url: "http://localhost:3000/ebookstore/adminDetails",
       data:data
     });
   }

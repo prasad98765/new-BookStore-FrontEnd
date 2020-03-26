@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { withRouter } from 'react-router-dom';
 import '../addToCart/addToCart.css'
 import Customer from '../addToCart/customerDeatils'
 import TopBar from "../topbar/navbar";
@@ -9,6 +8,7 @@ import Checkout from '../checkout/checkout'
 class CartIcon extends Component {
     constructor(props) {
         super(props)
+        this.condition = 1
         this.count = 1
         this.state = {
             item: null,
@@ -17,7 +17,9 @@ class CartIcon extends Component {
             hideForm: false,
             callCustomer: null, 
         }
+        if(this.condition == 1){
         this.state.item = this.props.history.location.state
+        }
         this.state.item.map((item) => {
             { this.state.totalPrice = this.state.totalPrice + parseInt(item.Price) }
         })
@@ -61,7 +63,18 @@ class CartIcon extends Component {
         this.setState({ totalPrice: this.state.totalPrice })
         this.state.item.splice(i, 1);
         this.setState({ item: this.state.item })
+        localStorage.setItem("document",JSON.stringify(this.state.item));
     }
+
+    // UNSAFE_componentWillMount() {
+    //     this.condition = 0
+    //     this.documentData = JSON.parse(localStorage.getItem("document"));
+    //     if (localStorage.getItem("document")) {
+    //       this.setState({
+    //         item : this.documentData.Title
+    //     });
+    // }
+    // }
     render() {
      var Books = this.props.history.location.state.map((item, i) => {
             this.state.purchaseBookIndividualCount.push(1)
@@ -73,14 +86,14 @@ class CartIcon extends Component {
                             <img className="image" src={item.ImageURL}
                              style={{
                                 height: "80px",
-                                width: "10%",
-                                marginTop: "-1%",
+                                width: "9.5%",
                                 marginLeft: "-3%"
                              }}></img>
-                            <div className="book-title">{item.Title}
-                            <div className="book-author">{item.Author}</div>
-                                <div className="book-price" > {item.Price}</div>
-                                <div>
+                             <div className="book-title">
+                            <div >{item.Title}</div>
+                            <div className="book-author"style={{fontSize:"70%"}}>{item.Author}</div>
+                                <div className="book-price" >Rs.{item.Price}</div>
+                                <div style={{marginTop:"6%"}}>
                                     <button className="minus" onClick={() => { this.decrement(i, item.Price) }}>-</button>
                                     <input className="text" value={this.state.purchaseBookIndividualCount[i]} ></input>
                                     <button className="plus" onClick={() => { this.increment(i, item.Price) }}>+</button>
@@ -97,11 +110,11 @@ class CartIcon extends Component {
                 <TopBar></TopBar>
             
             <div>
-                <div style={{ borderStyle: "outset", marginLeft: "17%", marginRight: "10%", marginTop: "5%", width: "50%" }}>
+                <div style={{ borderStyle: "groove", marginLeft: "17%", marginRight: "10%", marginTop: "2%", width: "55%" }}>
                     <div className="cart-title">My Cart({this.state.item.length})</div>
                     {Books}
                     <div s>
-                    <div className="total-price"><p id="totalprice">Total Price: {this.state.totalPrice}</p></div>
+                    <div className="total-price"><p id="totalprice">Total Price: Rs.{this.state.totalPrice}</p></div>
                     <button className="place-order" onClick={this.onClick} >PLACE ORDER </button>
                     </div>
                 </div>

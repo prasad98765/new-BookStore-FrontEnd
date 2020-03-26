@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import Login from "../login/singUpAndSign"
 import { withRouter } from 'react-router-dom';
+var APICall = require('../../congfiguration/BookStoreCallAPI')
 const emailRegex = RegExp(
   "^[a-zA-Z0-9]([._+-]{0,1}[a-zA-Z0-9])*[@]{1}[a-zA-Z0-9]{1,}[.]{1}[a-zA-Z]{2,3}([.]{1}[a-zA-Z]{2,3}){0,1}$"
 );
@@ -51,15 +50,28 @@ class SignInForm extends Component {
         break;
       case "PASSWORD":
         formErrors.PASSWORD =
-          value.length < 8 ? "minimum 8 characaters required" : "";
+          value.length < 5 ? "minimum 8 characaters required" : "";
         break;
       default:
         break;
     }
     this.setState({ formErrors, [name]: value }, () => console.log(this.state));
   }
-  login =() => {
-    this.props.history.push( { pathname : '/addToCart' })
+  login = async () => {
+    var loginDetails = {
+      EMAIL : this.state.EMAIL,
+      PASSWORD : this.state.PASSWORD
+    }
+    APICall.login(loginDetails).then(res => {     
+      console.log(res.data.data);
+       
+      if(res.data.data == true){
+        this.props.history.push({ pathname: "/addBook" });
+      }else{
+        console.log("login false....");
+        
+      }
+    })
   }
 
   handleSubmit(e) {
@@ -78,21 +90,31 @@ class SignInForm extends Component {
   }
 
   render() {
+    console.log(this.state.EMAIL);
+    
     const { formErrors } = this.state;
     return (
-      <div className="FormCenter">
+      <div className="FormCenter"
+      style={{
+        marginTop: "3%",
+        marginLeft: "30%",
+        height: "250px",
+        width: "45%",
+        borderStyle: "outset"
+      }}>
         <form
           onSubmit={this.handleSubmit}
-          className="FormFields"
+          // className="FormFields"
+          style={{marginTop:"15%"}}
           // onSubmit={this.handleSubmit}
         >
           <div className="FormField">
-            <label className="FormField__Label" htmlFor="email">
-              E-Mail Address
+            <label  htmlFor="email">
+              E-Mail
             </label>
             <input
               style={{
-                width: "40%",
+                width: "300%",
                 backgroundColor: "transparent",
                 border: "none",
                 color: "black",
@@ -116,13 +138,13 @@ class SignInForm extends Component {
             )}</div>
           </div>
 
-          <div className="FormField">
-            <label className="FormField__Label" htmlFor="password">
+          <div className="FormField"  >
+            <label style={{marginTop:"20%"}} htmlFor="password">
               Password
             </label>
             <input
               style={{
-                width: "40%",
+                width: "300%",
                 backgroundColor: "transparent",
                 border: "none",
                 color: "black",
@@ -131,7 +153,7 @@ class SignInForm extends Component {
                 fontSize: "1em",
                 fontWeight: "300",
                 paddingBottom: "10px",
-                marginTop: "10px"
+                marginTop: "10% "
               }}
               className={formErrors.PASSWORD.length > 0 ? "error" : null}
               type="password"
@@ -147,10 +169,7 @@ class SignInForm extends Component {
           </div>
 
           <div className="FormField">
-            <button className="FormField__Button mr-20" onClick = {this.login}>Sign In</button>{" "}
-            <Link to="/" className="FormField__Link">
-              Create an account
-            </Link>
+            <button className="FormField__Button mr-20"style={{marginTop:"10%",marginLeft:"100%"}} onClick = {this.login}>Sign In</button>
           </div>
         </form>
       </div>

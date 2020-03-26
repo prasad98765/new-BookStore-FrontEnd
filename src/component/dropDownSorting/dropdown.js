@@ -10,22 +10,28 @@ var ListofBooks = require("../../component/dashboard/listOfBooks");
 export default class MenuPopupState extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      field : "Sort By Relevance"
+    }
     this.ListofBooks = React.createRef();
   }
 
   highToLowClick = event => {
+    this.setState({field : "highToLow"})
     APIcall.getSortData("highToLow").then(res => {
       this.props.value(res.data.data);
     });
   };
 
   lowToHighClick = event => {
+    this.setState({field : "lowToHigh"})
     APIcall.getSortData("lowToHigh").then(res => {
       this.props.value(res.data.data);
     });
   };
 
   sortArrivalClick = event => {
+    this.setState({field : "sortArrival"})
     APIcall.getSortData("sortArrival").then(res => {
       this.props.value(res.data.data);
     });
@@ -53,7 +59,7 @@ export default class MenuPopupState extends Component {
                   borderColor: "grey"
                 }}
               >
-                Sort By Relevance
+                {this.state.field}
               </Button>
               <Menu {...bindMenu(popupState)}>
                 <MenuItem

@@ -72,7 +72,7 @@ class BookStoreFirstPage extends Component {
     return (
       <div>
         <TopBar bookList={this.state.ALLBOOKS} value={this.handleSearch} value1 = {this.addToCart} count = {this.state.count} wishCount={this.state.wishCount} login ={this.login}  />
-        <Sorting bookList={this.state.ALLBOOKS} bookcount = {this.state.noOfRecord} value={this.handleSorting} />
+        <Sorting bookList={this.state.ALLBOOKS} bookcount = {this.state.noOfRecord} value={this.handleSorting} page = {this.state.page} />
         <ListOfBooks
           bookList={this.state.ALLBOOKS}
           handleChange={this.handleChange}

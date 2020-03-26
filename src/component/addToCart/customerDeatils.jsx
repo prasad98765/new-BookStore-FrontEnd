@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "../addToCart/customerDeatils.css";
-import Button from "@material-ui/core/Button";
-// import { makeStyles } from '@material-ui/core/styles';
+import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -9,13 +8,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import "../../../node_modules/bootstrap/dist/css/bootstrap-grid.min.css";
 var APICall = require("../../congfiguration/BookStoreCallAPI");
-// import service from '../../service/service'
-// import { withRouter } from 'react-router-dom';
 
 class CustomerDetails extends Component {
   // divHide=false;
   documentData;
-  orderBook = []
+  orderBook = [];
   constructor(props) {
     super(props);
     this.state = {
@@ -43,16 +40,14 @@ class CustomerDetails extends Component {
       divHide: false,
       buttonHide: true,
       item: null,
-      id: null,
+      id: null
     };
-    // console.log("asdfasdf", this.props.formDetails);
     this.state.item = this.props.detail;
     this.state.formHide = this.props.formDetails;
   }
 
   formHide = () => {
     this.setState({ formHide: true });
-    // console.log("done");
   };
 
   editDetails = () => {
@@ -113,37 +108,25 @@ class CustomerDetails extends Component {
     );
   };
 
-  handleFormSubmit = event => {
-    console.log("get name-------------->", this.state.Name);
-    var CustomerDetails = {
-      NAME: this.state.Name,
-      EMAil: this.state.Email,
-      PINCODE: this.state.Pincode,
-      MOBILENO: this.state.Phone_Number,
-      ADDRESS: this.state.Address,
-      LOCALITY: this.state.Locality,
-      CITY: this.state.city,
-      LANDMARK: this.state.LandMark
-    };
-    console.log("custorem Details object====>", CustomerDetails);
+  // handleFormSubmit = event => {
+  //   console.log("get name-------------->", this.state.Name);
+  
+  //   console.log("custorem Details object====>", CustomerDetails)
+   
+  // };
 
-    event.preventDefault();
-    localStorage.setItem("document", JSON.stringify(this.state));
-  };
-
-  componentDidMount() {
+  componentWillMount() {
     this.documentData = JSON.parse(localStorage.getItem("document"));
-
     if (localStorage.getItem("document")) {
       this.setState({
-        Name: this.documentData.Name,
-        Phone_Number: this.documentData.Phone_Number,
-        Pincode: this.documentData.Pincode,
-        Email: this.documentData.Email,
-        Locality: this.documentData.Locality,
-        Address: this.documentData.Address,
-        city: this.documentData.city,
-        LandMark: this.documentData.LandMark
+        Name: this.documentData.NAME,
+        Phone_Number: this.documentData.MOBILENO,
+        Pincode: this.documentData.PINCODE,
+        Email: this.documentData.EMAil,
+        Locality: this.documentData.LOCALITY,
+        Address: this.documentData.ADDRESS,
+        city: this.documentData.CITY,
+        LandMark: this.documentData.LANDMARK
       });
     } else {
       this.setState({
@@ -161,7 +144,6 @@ class CustomerDetails extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    // this.setState({ divHide: true });
     const validateForm = errors => {
       let valid = false;
       if (
@@ -195,6 +177,17 @@ class CustomerDetails extends Component {
     } else {
       console.error("Invalid Form");
     }
+    var CustomerDetails = {
+      NAME: this.state.Name,
+      EMAil: this.state.Email,
+      PINCODE: this.state.Pincode,
+      MOBILENO: this.state.Phone_Number,
+      ADDRESS: this.state.Address,
+      LOCALITY: this.state.Locality,
+      CITY: this.state.city,
+      LANDMARK: this.state.LandMark
+    };
+    localStorage.setItem("document",JSON.stringify(CustomerDetails));
   };
 
   onCheckout = async () => {
@@ -209,32 +202,26 @@ class CustomerDetails extends Component {
       TYPE: this.state.Type
     };
     console.log("abc", details);
+    localStorage.clear()
     APICall.userDetails(details).then(res => {
-      console.log("after rex userr deatils->",res.data.data);
-      for(var  i =0;i= this.orderBook.length;){
-        console.log("in for loop",this.orderBook);
-        
-        var books = this.orderBook[i] +" "+ this.orderBook[i+1]
-        console.log("after concat-------->",books);
-      }
-      APICall.sendEmail({ID:res.data.data._id,EMAIL : res.data.data.EMAIL , Books : this.orderBook}).then(res => {
+      console.log("after rex userr deatils->", res.data.data);
+      APICall.sendEmail({
+        ID: res.data.data._id,
+        EMAIL: res.data.data.EMAIL,
+        Books: this.orderBook
+      }).then(res => {
         console.log(res.data);
       });
     });
-   
-
     this.props.checkout(details);
-    // new service().customerDetails(details).then(data => {
-    //     this.props.history.push('/order', data.data.result.result._id);
-    // })
   };
 
   render() {
-    console.log("in C D page", this.orderBook);
+    console.log("in C D page", this.documentData);
 
     const { errors } = this.state;
     var Books = this.state.item.map((item, i) => {
-      this.orderBook = item.Title +" " ; 
+      this.orderBook = item.Title + " ";
       // this.setState({OrderBook : + item.Title})
       return (
         <div
@@ -268,15 +255,15 @@ class CustomerDetails extends Component {
       );
     });
     return (
-      <div style={{ marginTop: "5%" }}>
-        <div className="subMain">
+      <div style={{ marginTop: "3%" }}>
+        <div className="">
           <div
             style={{
-              borderStyle: "outset",
+              borderStyle: "groove",
               marginLeft: "17%",
               marginRight: "10%",
               marginTop: "-2%",
-              width: "50%"
+              width: "55%"
             }}
           >
             <div className="orderSummary">CustomerDetails</div>
@@ -289,7 +276,7 @@ class CustomerDetails extends Component {
                   className="editButton"
                   component="span"
                   style={{
-                    marginLeft: "90%",
+                    // marginLeft: "0",
                     display: this.state.hidden ? "block" : "none"
                   }}
                   onClick={this.editDetails}
@@ -317,7 +304,7 @@ class CustomerDetails extends Component {
                   <div className="phonenumber">
                     <TextField
                       id="outlined-basic"
-                      className="testField"
+                      className="textField"
                       label="Phone Number"
                       name="Phone_Number"
                       variant="outlined"
@@ -372,7 +359,6 @@ class CustomerDetails extends Component {
                     style={{ width: "68.7%" }}
                     label="Address"
                     name="Address"
-                    multiline
                     rows="3"
                     required
                     value={this.state.Address}
@@ -457,13 +443,15 @@ class CustomerDetails extends Component {
 
                 <button
                   style={{
-                    backgroundColor: "#3371b5",
+                    backgroundColor: "#3371b5 ",
                     color: "whitesmoke",
                     border: "none",
+                    marginTop: "1%",
                     padding: "1%",
-                    marginTop: "5%",
-                    marginLeft: "40%",
-                    marginBottom: " 5%",
+                    marginLeft: "77%",
+                    marginRight: "5%",
+                    marginBottom: "3%",
+                    width:"17%",
                     display: this.state.buttonHide ? "flase" : "true"
                   }}
                   type="submit"
@@ -471,7 +459,6 @@ class CustomerDetails extends Component {
                   variant="contained"
                   color="primary"
                   onClick={this.onSubmit}
-                  onSubmit={this.handleFormSubmit}
                 >
                   CONTINUE
                 </button>
@@ -483,12 +470,12 @@ class CustomerDetails extends Component {
           <div>
             <div
               style={{
-                borderStyle: "outset",
+                borderStyle: "groove",
                 marginLeft: "17%",
                 marginRight: "10%",
                 marginTop: "2.9%",
                 marginBottom: "2%",
-                width: "50%"
+                width: "55%"
               }}
             >
               <div className="orderSummary">Order Summary</div>
@@ -496,14 +483,15 @@ class CustomerDetails extends Component {
               <div style={{ display: this.state.divHide ? "true" : "false" }}>
                 <Button
                   style={{
-                    backgroundColor: "#3371b5",
+                    backgroundColor: "#3371b5 ",
                     color: "whitesmoke",
                     border: "none",
-                    padding: "1%",
-                    marginTop: "5%",
-                    marginLeft: "82%",
-                    height: "30px",
-                    marginBottom: " 5%"
+                    marginTop: "1%",
+                    // padding: "1%",
+                    marginLeft: "77%",
+                    marginRight: "5%",
+                    marginBottom: "3%",
+                    width:"17%",
                   }}
                   onClick={() => this.onCheckout()}
                   variant="contained"
@@ -517,12 +505,12 @@ class CustomerDetails extends Component {
         ) : (
           <div
             style={{
-              borderStyle: "outset",
+              borderStyle: "groove",
               marginLeft: "17%",
               marginRight: "10%",
-              marginTop: "2.9%",
-              marginBottom: "2%",
-              width: "50%"
+              marginTop: "1%",
+              marginBottom: "3.9%",
+              width: "55%"
             }}
           >
             <div className="orderSummary">Order Summary</div>

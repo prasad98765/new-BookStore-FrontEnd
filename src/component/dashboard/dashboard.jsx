@@ -31,7 +31,9 @@ class dashboard extends Component {
       addToWishList: [],
       widths: 80,
       message: "ADD TO BAG",
-      button: "buttonTrue"
+      button: "buttonTrue",
+      backgroundColor : "#800000"
+
     };
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleWishListButtonClick = this.handleWishListButtonClick.bind(this);
@@ -48,7 +50,9 @@ class dashboard extends Component {
       this.setState({
         open: true,
         widths: 165,
+        color:"black",
         message: "Added To Bag",
+        backgroundColor: "blue",
         button: "buttonFalse"
       });
     }
@@ -104,7 +108,11 @@ class dashboard extends Component {
               <div style={{ marginTop: "-10%" }}>
                 <h3
                   style={{
-                    backgroundColor: "orange",
+                    backgroundColor: "transparent",
+                    fontStyle:"arial",
+                    display : "flex",
+                    justifyContent:"center",
+                    marginTop:"-20%",
                     marginLeft: 13,
                     marginRight: 13
                   }}
@@ -223,7 +231,7 @@ class dashboard extends Component {
                     className={this.state.button ? "buttonTrue" : "buttonFalse"}
                     style={{
                       border: "none",
-                      backgroundColor: "#800000",
+                      backgroundColor: this.state.backgroundColor,
                       color: "white",
                       textDecoration: "none",
                       display: "inlineBlock",
@@ -246,7 +254,7 @@ class dashboard extends Component {
                     style={{
                       borderStyle: "solid",
                       borderWidth: "thin",
-                      width: 70,
+                      width: 74,
                       height: 30,
                       marginTop: -70,
                       fontFamily: "Times New Roman",

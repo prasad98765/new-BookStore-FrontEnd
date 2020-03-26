@@ -15,7 +15,8 @@
 }
 
 .cart-title {
-    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    /* font-size: 15px; */
     padding-left: 4%;
     padding-top: 2%;
 }
@@ -24,42 +25,43 @@
     display: flex;
     flex-direction: row;
     padding-left: 7%;
-    padding-top: 3%;
+    padding-top: 5%;
 
 }
 
 .book-title {
-    margin-top: -1%;
-    margin-left: -4%;
+    /* margin-top: 3%; */
+    margin-left: -0.8%;
     font-family: fantasy;
 }
 
 .book-author {
     margin-top: 1%;
-    font-size: 89%;
     color: gray;
 }
 
 .book-price {
-    margin-top: 1%;
+    margin-top: 3%;
+    font: bold 15px Georgia, serif;
+
 }
 
 .minus {
-    border-radius: 50%;
-    margin: 2px;
+    width: 8%;
+    border-radius: 70%;
     border: 1px solid grey;
     background-color: whitesmoke;
 }
 
 .text {
-    margin-left: 1%;
-    width: 7%;
+    padding-left: 4%;
+    margin-left: 1.5%;
+    width: 13%;
 }
 
 .plus {
     margin-left: 1.5%;
     border-radius: 50%;
-    /* margin: 2px; */
     border: 1px solid grey;
     background-color: whitesmoke;
 }
@@ -74,18 +76,20 @@
     background-color: #3371b5;
     color: whitesmoke;
     border: none;
-    margin-top: 2%;
+    margin-top: 1%;
     padding: 1%;
     margin-left: 77%;
-    margin-bottom: 5%;
-    width: 20%;
-}
+    margin-right: 5%;
+    margin-bottom: 3%;
+  }
 
 .total-price {
-    /* margin: 1%; */
-    margin-left: 77%;
+    margin-top: 3%;
+    margin-left: -40%;
+
+    /* margin-left:5%; */
     /* margin-bottom: 5%; */
-    width: 20%
+    /* width: 20% */
 }
 
 #totalprice {

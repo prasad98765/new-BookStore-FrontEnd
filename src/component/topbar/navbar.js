@@ -67,7 +67,7 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit * 10,
     transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("")]: {
       width: 200
     }
   },
@@ -185,16 +185,17 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static" style={{ backgroundColor: "#800000" }}>
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit">
-              <MenuBookIcon style={{ width: 40 }} />
+            <IconButton style={{ marginLeft:"11%"}} color="inherit">
+              <MenuBookIcon style={{ width: 40,fontSize: "33px", marginTop : "-7px"}} />
               Bookstore
             </IconButton>
 
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon style={{ width: 400 }} />
+            <div className={classes.search} color="inherit" style={{backgroundColor:"white"}}>
+              <div className={classes.searchIcon} >
+                <SearchIcon style={{ width: 400 }} style={{color:"black"}} />
               </div>
               <InputBase
+                style={{color:"black"}}
                 placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,
