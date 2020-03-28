@@ -15,8 +15,6 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
-import dashborad from '../dashboard/dashboard'
-// import {BrowserRouter} from "react-router"
 var APIcall = require("../../congfiguration/BookStoreCallAPI");
 
 const styles = theme => ({
@@ -88,25 +86,30 @@ const styles = theme => ({
 class PrimarySearchAppBar extends React.Component {
   constructor(props) {
     super(props);
+    this.set = true;
     this.state = {
       bookSearch: "",
       searchedBookList: [],
-      count : 1,
-      wishCount:1
-
+      count: 1,
+      wishCount: 1,
+      set: true
     };
   }
 
   handleProfileMenuOpen = event => {
-    this.props.login("abv")
+    this.props.login("abv");
   };
 
   handleMobileMenuOpen = event => {
     this.setState({ mobileMoreAnchorEl: event.currentTarget });
   };
 
-  onSubmit = (event) => {
-    this.props.value1("add")
+  onSubmit = event => {
+    if (this.props.count == 0) {
+      this.setState({ set: true });
+    } else {
+      this.props.value1("add");
+    }
   };
   SearchBook = async event => {
     await this.setState({
@@ -123,8 +126,7 @@ class PrimarySearchAppBar extends React.Component {
   };
 
   render() {
-    console.log(this.state.count);
-    
+    console.log("rex addd to bag count", this.props.count);
     const { anchorEl, mobileMoreAnchorEl } = this.state;
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
@@ -141,7 +143,6 @@ class PrimarySearchAppBar extends React.Component {
         <MenuItem onClick={this.handleMenuClose}>
           <a hrerf="/TextField"> Login</a>
         </MenuItem>
-        {/* <MenuItem onClick={this.handleMenuClose}>Add Book</MenuItem> */}
       </Menu>
     );
 
@@ -177,7 +178,6 @@ class PrimarySearchAppBar extends React.Component {
             {" "}
             Profile
           </a>
-          {/* <p>Profile</p> */}
         </MenuItem>
       </Menu>
     );
@@ -185,35 +185,47 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static" style={{ backgroundColor: "#800000" }}>
           <Toolbar>
-            <IconButton style={{ marginLeft:"11%"}} color="inherit">
-              <MenuBookIcon style={{ width: 40,fontSize: "33px", marginTop : "-7px"}} />
+            <IconButton style={{ marginLeft: "11%" }} color="inherit">
+              <MenuBookIcon
+                style={{ width: 40, fontSize: "33px", marginTop: "-7px" }}
+              />
               Bookstore
             </IconButton>
-
-            <div className={classes.search} color="inherit" style={{backgroundColor:"white"}}>
-              <div className={classes.searchIcon} >
-                <SearchIcon style={{ width: 400 }} style={{color:"black"}} />
+            {this.state.set === true && this.props.set === undefined ? (
+              <div
+                className={classes.search}
+                color="inherit"
+                style={{ backgroundColor: "white" }}
+              >
+                <div className={classes.searchIcon}>
+                  <SearchIcon
+                    style={{ width: 400 }}
+                    style={{ color: "black" }}
+                  />
+                </div>
+                <InputBase
+                  style={{ color: "black" }}
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                  onChange={this.SearchBook}
+                  value={this.state.bookSearch}
+                />
               </div>
-              <InputBase
-                style={{color:"black"}}
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-                onChange={this.SearchBook}
-                value={this.state.bookSearch}
-              />
-            </div>
+            ) : (
+              ""
+            )}
             <div className={classes.grow} />
-            <div className={classes.sectionDesktop} >
-              <IconButton color="inherit" onClick = {this.onSubmit} >
+            <div className={classes.sectionDesktop}>
+              <IconButton color="inherit" onClick={this.onSubmit}>
                 <Badge badgeContent={this.props.count} color="secondary">
                   <ShoppingCartIcon />
                 </Badge>
               </IconButton>
-              <IconButton color="inherit" onClick={this.onSubmit} >
-                <Badge  color="secondary">
+              <IconButton color="inherit" onClick={this.onSubmit}>
+                <Badge color="secondary">
                   <FavoriteRoundedIcon />
                 </Badge>
               </IconButton>

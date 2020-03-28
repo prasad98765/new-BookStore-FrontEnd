@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { withRouter } from 'react-router-dom';
-
-var login = require("../login/singUpAndSign");
 var APICall = require("../../congfiguration/BookStoreCallAPI");
 const emailRegex = RegExp(
   "^[a-zA-Z0-9]([._+-]{0,1}[a-zA-Z0-9])*[@]{1}[a-zA-Z0-9]{1,}[.]{1}[a-zA-Z]{2,3}([.]{1}[a-zA-Z]{2,3}){0,1}$"
@@ -9,12 +7,9 @@ const emailRegex = RegExp(
 const mobileRegex = RegExp("^[0-9]{2}\\s[0-9]{10}$");
 const formValid = ({ formErrors, ...rest }) => {
   let valid = true;
-  // validate form errors being empty
   Object.values(formErrors).forEach(val => {
     val.length > 0 && (valid = false);
   });
-
-  // validate the form was filled out
   Object.values(rest).forEach(val => {
     val === null && (valid = false);
   });
@@ -41,17 +36,6 @@ class SignUpForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  // handleChange(e) {
-  //   let target = e.target;
-  //   let value = target.type === "checkbox" ? target.checked : target.value;
-  //   let name = target.name;
-
-  //   this.setState({
-  //     [name]: value
-  //   });
-  // }
-
   handleChange = e => {
     e.preventDefault();
     let target = e.target;
@@ -85,9 +69,6 @@ class SignUpForm extends Component {
     this.setState({ formErrors, [name]: value }, () => console.log(this.state));
   };
   handleSubmit(e) {
-    // e.preventDefault();
-    // console.log("The form was submitted with the following data:");
-    // console.log(this.state);
     if (formValid(this.state)) {
       console.log(`
         --SUBMITTING--
@@ -178,7 +159,6 @@ class SignUpForm extends Component {
               className={formErrors.EMAIL.length > 0 ? "error" : null}
               type="text"
               id="email"
-              // className="FormField__Input"
               placeholder="Enter your email"
               name="EMAIL"
               value={this.state.EMAIL}
@@ -209,7 +189,6 @@ class SignUpForm extends Component {
               }}
               className={formErrors.PASSWORD.length > 0 ? "error" : null}
               type="password"
-              // className="FormField__Input"
               placeholder="Enter your password"
               name="PASSWORD"
               value={this.state.PASSWORD}
@@ -244,7 +223,6 @@ class SignUpForm extends Component {
               className={formErrors.CONTACT.length > 0 ? "error" : null}
               type="text"
               id="phome_number"
-              // className="FormField__Input"
               placeholder="Enter phone number"
               name="CONTACT"
               value={this.state.CONTACT}

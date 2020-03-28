@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import BookStoreFirstPage from './component/FrontPage/BookStoreFirstPage'
 import CustDetails from './component/addToCart/addToCart'
-import SignUpAndSignIn from './component/login/singUpAndSign'
-import TopBar from "./component/topbar/navbar";
 import Checkout from './component/checkout/checkout'
 import AddBook from './component/addBook/boodAdd'
 import SignUp from './component/login/SignUpForm'

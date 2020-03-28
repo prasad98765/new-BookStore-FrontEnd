@@ -17,7 +17,8 @@ class OrderPlaced extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: ""
+      data: "",
+      set : false
     };
   }
   ContinueShppling = () => {
@@ -26,19 +27,18 @@ class OrderPlaced extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar set = {this.state.set} />
         <div className="mainDiv">
           <div className="orderImage">
             <img src={orderImage} style = {{height : "200px"}} />
           </div>
-          {/* <div style={{marginTop:"10%"}}> */}
           <div className="orderMessage">
             <p className="messageParagraph">
               {" "}
               hurray!!!your order is confirmed
             </p>
             <p className="messageParagraph">
-              the order id is #{this.props.data} save the order id
+              the order id is #{this.props.history.location.state.ID} save the order id
             </p>
             <p className="messageParagraph">for further communication..</p>
           </div>
@@ -84,7 +84,6 @@ class OrderPlaced extends Component {
         </div>
         <Footer></Footer>
       </div>
-      // </div>
     );
   }
 }

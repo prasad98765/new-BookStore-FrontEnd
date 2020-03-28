@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../addBook/bookAdd.css";
 var APIcall = require("../../congfiguration/BookStoreCallAPI");
-const ratings = RegExp("^[0-5]$");
+const ratings = RegExp("^[0-5][.][0-5]$");
 const titles = RegExp("^[A-Z]{1}");
 const author = RegExp("^[A-Z]{1}");
 const description = RegExp("^[A-Z]{1}");
@@ -101,25 +101,15 @@ class SignUpForm extends Component {
     } else {
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
     }
-    console.log("The form was submitted with the following data:");
-    console.log(this.state);
   }
 
   getfile = async event => {
-    console.log("select--> ", event.target.files[0]);
     this.setState({ FILE: event.target.files[0] });
-
     const formData = new FormData();
     formData.append("filePath", event.target.files[0]);
-    console.log("formData", formData);
-
     APIcall.getImagePath(formData).then(res => {
-      console.log("res in file upload--> ", res.data.url);
       this.setState({ IMAGEPATH: res.data.url });
     });
-  };
-  getfilepath = () => {
-    console.log("in file Path", this.state.FILE);
   };
   increment = async () => {
     await this.setState(previousState => {
@@ -136,8 +126,6 @@ class SignUpForm extends Component {
   };
 
   getbookdetails = () => {
-    console.log("call to submit");
-
     const bookDetails = {
       TITLE: this.state.TITLE,
       AUTHOR: this.state.AUTHOR,
@@ -148,16 +136,9 @@ class SignUpForm extends Component {
       IMAGEPATH: this.state.IMAGEPATH,
       NOOFBOOKS: this.state.COUNT
     };
-
-    console.log("book details object", bookDetails);
-
     APIcall.BookDetails(bookDetails)
       .then(res => {
-        console.log("save book in data base ---------------->", res.data);
       })
-      .catch(err => {
-        console.log("err while submitting--> ", err);
-      });
   };
   getCountIncrement = () => {
     this.setState({
@@ -181,7 +162,6 @@ class SignUpForm extends Component {
                 value={this.state.value}
                 onChange={this.handleChange}
                 type="title"
-                className={formErrors.TITLE.length > 0 ? "error" : null}
                 className="FormField__Input"
                 placeholder="Enter book title name"
                 name="TITLE"
@@ -196,7 +176,6 @@ class SignUpForm extends Component {
               <input
                 value={this.state.value}
                 onChange={this.handleChange}
-                className={formErrors.AUTHOR.length > 0 ? "error" : null}
                 type="Author"
                 className="FormField__Input"
                 placeholder="Enter book author name"
@@ -215,7 +194,6 @@ class SignUpForm extends Component {
                 value={this.state.value}
                 onChange={this.handleChange}
                 type="Year"
-                className={formErrors.YEAR.length > 0 ? "error" : null}
                 className="FormField__Input"
                 placeholder="Enter book published year"
                 name="YEAR"
@@ -230,7 +208,6 @@ class SignUpForm extends Component {
               <input
                 value={this.state.value}
                 onChange={this.handleChange}
-                className={formErrors.PRICE.length > 0 ? "error" : null}
                 type="Price"
                 className="FormField__Input"
                 placeholder="Enter book price"
@@ -246,7 +223,6 @@ class SignUpForm extends Component {
               <input
                 value={this.state.value}
                 onChange={this.handleChange}
-                className={formErrors.RATING.length > 0 ? "error" : null}
                 type="rating"
                 className="FormField__Input"
                 placeholder="Rating of book"
@@ -263,7 +239,6 @@ class SignUpForm extends Component {
               <input
                 value={this.state.value}
                 onChange={this.handleChange}
-                className={formErrors.DESCRIPTION.length > 0 ? "error" : null}
                 type="Description"
                 className="FormField__Input"
                 placeholder="Enter book description"
@@ -311,7 +286,6 @@ class SignUpForm extends Component {
             >
               Submit
             </button>
-            {/* <Dashboard count = {this.state.COUNT}/> */}
           </div>
         </div>
       </div>

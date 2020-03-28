@@ -6,12 +6,10 @@ const emailRegex = RegExp(
 );
 const formValid = ({ formErrors, ...rest }) => {
   let valid = true;
-  // validate form errors being empty
   Object.values(formErrors).forEach(val => {
     val.length > 0 && (valid = false);
   });
 
-  // validate the form was filled out
   Object.values(rest).forEach(val => {
     val === null && (valid = false);
   });
@@ -38,7 +36,6 @@ class SignInForm extends Component {
     e.preventDefault();
     let target = e.target;
     let value = target.type === "checkbox" ? target.checked : target.value;
-    // let name = target.name;
     const { name } = e.target;
     let formErrors = { ...this.state.formErrors };
 
@@ -63,21 +60,14 @@ class SignInForm extends Component {
       PASSWORD : this.state.PASSWORD
     }
     APICall.login(loginDetails).then(res => {     
-      console.log(res.data.data);
-       
-      if(res.data.data == true){
+      if(res.data.data === true){
         this.props.history.push({ pathname: "/addBook" });
       }else{
-        console.log("login false....");
-        
       }
     })
   }
 
   handleSubmit(e) {
-    // e.preventDefault();
-    // console.log("The form was submitted with the following data:");
-    // console.log(this.state);
     if (formValid(this.state)) {
       console.log(`
         --SUBMITTING--
@@ -90,8 +80,6 @@ class SignInForm extends Component {
   }
 
   render() {
-    console.log(this.state.EMAIL);
-    
     const { formErrors } = this.state;
     return (
       <div className="FormCenter"
@@ -104,9 +92,7 @@ class SignInForm extends Component {
       }}>
         <form
           onSubmit={this.handleSubmit}
-          // className="FormFields"
           style={{marginTop:"15%"}}
-          // onSubmit={this.handleSubmit}
         >
           <div className="FormField">
             <label  htmlFor="email">

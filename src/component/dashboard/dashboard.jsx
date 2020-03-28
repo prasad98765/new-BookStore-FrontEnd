@@ -6,18 +6,10 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import "../dashboard/dashboard.css";
-
-const styles = theme => ({
-  close: {
-    padding: theme.spacing.unit / 2
-  }
-});
-
 class dashboard extends Component {
   constructor(props) {
     super(props);
@@ -31,15 +23,15 @@ class dashboard extends Component {
       addToWishList: [],
       widths: 80,
       message: "ADD TO BAG",
-      button: "buttonTrue",
-      backgroundColor : "#800000"
-
+      button1: "buttonTrue",
+      backgroundColor: "#800000"
     };
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleWishListButtonClick = this.handleWishListButtonClick.bind(this);
+    var documentData = JSON.parse(localStorage.getItem("document"));
   }
   async handleButtonClick() {
-    if (this.state.button == "buttonTrue") {
+    if (this.state.button1 === "buttonTrue") {
       var addToCartBook = {
         Title: this.props.value.TITLE,
         Author: this.props.value.AUTHOR,
@@ -48,12 +40,10 @@ class dashboard extends Component {
       };
       this.props.getBook(addToCartBook);
       this.setState({
-        open: true,
         widths: 165,
-        color:"black",
         message: "Added To Bag",
         backgroundColor: "blue",
-        button: "buttonFalse"
+        button1: "buttonFalse"
       });
     }
   }
@@ -76,9 +66,6 @@ class dashboard extends Component {
   };
 
   render() {
-    console.log("indashBoard", this.state.Count);
-    const { classes } = this.props;
-
     return (
       <div>
         <Card
@@ -109,10 +96,10 @@ class dashboard extends Component {
                 <h3
                   style={{
                     backgroundColor: "transparent",
-                    fontStyle:"arial",
-                    display : "flex",
-                    justifyContent:"center",
-                    marginTop:"-20%",
+                    fontStyle: "arial",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "-20%",
                     marginLeft: 13,
                     marginRight: 13
                   }}
@@ -237,7 +224,6 @@ class dashboard extends Component {
                       display: "inlineBlock",
                       transitionDuration: 0.4,
                       marginTop: -70,
-                      marginTop: -70,
                       width: this.state.widths,
                       height: 30,
                       fontSize: "0.60em"
@@ -261,6 +247,7 @@ class dashboard extends Component {
                       color: "black",
                       fontSize: "0.60em"
                     }}
+                    
                   >
                     Wishlist
                   </Button>
@@ -283,19 +270,10 @@ class dashboard extends Component {
                       </span>
                     }
                     action={[
-                      <Button
-                        key="undo"
-                        color="secondary"
-                        size="small"
-                        onClick={this.handleClose}
-                      >
-                        UNDO
-                      </Button>,
                       <IconButton
                         key="close"
                         aria-label="Close"
                         color="inherit"
-                        // className={classes.close}
                         onClick={this.handleClose}
                       >
                         <CloseIcon />

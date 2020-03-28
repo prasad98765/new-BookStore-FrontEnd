@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import "../addToCart/customerDeatils.css";
-import Button from "@material-ui/core/Button"
+import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import "../../../node_modules/bootstrap/dist/css/bootstrap-grid.min.css";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import { Popover } from "@material-ui/core";
+
 var APICall = require("../../congfiguration/BookStoreCallAPI");
 
 class CustomerDetails extends Component {
-  // divHide=false;
   documentData;
   orderBook = [];
   constructor(props) {
@@ -40,7 +44,8 @@ class CustomerDetails extends Component {
       divHide: false,
       buttonHide: true,
       item: null,
-      id: null
+      id: null,
+      open: false
     };
     this.state.item = this.props.detail;
     this.state.formHide = this.props.formDetails;
@@ -51,7 +56,6 @@ class CustomerDetails extends Component {
   };
 
   editDetails = () => {
-    // console.log("done");
     this.setState((this.state = { formfilled: !this.state.formfilled }));
     this.setState((this.state = { buttonHide: !this.state.buttonHide }));
     this.setState((this.state = { hidden: !this.state.hidden }));
@@ -60,8 +64,6 @@ class CustomerDetails extends Component {
   handleValueChange = event => {
     this.setState({ [event.target.name]: event.target.value });
     this.setState({ divHide: false });
-    // event.preventDefault();
-    // console.log(event.target.value);
     const { name, value } = event.target;
     let errors = this.state.errors;
     const phonenumber = RegExp("^[0-9]{10}$");
@@ -72,13 +74,10 @@ class CustomerDetails extends Component {
 
     switch (name) {
       case "Name":
-        errors.Name =
-          value.length < 2 ? "Full Name must be 5 characters long!" : "";
+        errors.Name = value.length < 2 ? "Full Name must be 5 characters long!" : "";
         break;
       case "Phone_Number":
-        errors.Phone_Number = phonenumber.test(value)
-          ? ""
-          : "Phone Number is not valid!";
+        errors.Phone_Number = phonenumber.test(value) ? "" : "Phone Number is not valid!";
         break;
       case "Pincode":
         errors.Pincode = pincode.test(value) ? "" : "Pin code is not valid!";
@@ -107,13 +106,6 @@ class CustomerDetails extends Component {
       this.state.divHide
     );
   };
-
-  // handleFormSubmit = event => {
-  //   console.log("get name-------------->", this.state.Name);
-  
-  //   console.log("custorem Details object====>", CustomerDetails)
-   
-  // };
 
   componentWillMount() {
     this.documentData = JSON.parse(localStorage.getItem("document"));
@@ -145,7 +137,7 @@ class CustomerDetails extends Component {
   onSubmit = event => {
     event.preventDefault();
     const validateForm = errors => {
-      let valid = false;
+      let valid = true;
       if (
         this.state.Name &&
         this.state.Phone_Number &&
@@ -162,8 +154,9 @@ class CustomerDetails extends Component {
         this.state.city.length > 3 &&
         this.state.LandMark.length > 3
       ) {
-        valid = true;
+        this.setState({open : false});
         this.setState({ divHide: false });
+        this.setState({ validation: true });
 
         Object.values(errors).forEach(val => val.length > 0 && (valid = false));
         return valid;
@@ -174,8 +167,11 @@ class CustomerDetails extends Component {
       this.setState({ buttonHide: !this.state.buttonHide });
       this.setState({ hidden: !this.state.hidden });
       this.setState({ divHide: true });
+      this.setState({open : false});
+
     } else {
       console.error("Invalid Form");
+      this.setState({open : true});
     }
     var CustomerDetails = {
       NAME: this.state.Name,
@@ -185,9 +181,17 @@ class CustomerDetails extends Component {
       ADDRESS: this.state.Address,
       LOCALITY: this.state.Locality,
       CITY: this.state.city,
-      LANDMARK: this.state.LandMark
+      LANDMARK: this.state.LandMark,
+      TYPE: this.state.TYPE
     };
-    localStorage.setItem("document",JSON.stringify(CustomerDetails));
+    localStorage.setItem("document", JSON.stringify(CustomerDetails));
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ open: false });
   };
 
   onCheckout = async () => {
@@ -201,28 +205,21 @@ class CustomerDetails extends Component {
       LANDMARK: this.state.LandMark,
       TYPE: this.state.Type
     };
-    console.log("abc", details);
-    localStorage.clear()
+    localStorage.clear();
     APICall.userDetails(details).then(res => {
-      console.log("after rex userr deatils->", res.data.data);
       APICall.sendEmail({
         ID: res.data.data._id,
         EMAIL: res.data.data.EMAIL,
         Books: this.orderBook
-      }).then(res => {
-        console.log(res.data);
-      });
+      }).then(res => {});
     });
     this.props.checkout(details);
   };
 
   render() {
-    console.log("in C D page", this.documentData);
-
     const { errors } = this.state;
     var Books = this.state.item.map((item, i) => {
       this.orderBook = item.Title + " ";
-      // this.setState({OrderBook : + item.Title})
       return (
         <div
           style={{ marginLeft: "3%", marginRight: "10%", marginTop: "0.5%" }}
@@ -276,7 +273,6 @@ class CustomerDetails extends Component {
                   className="editButton"
                   component="span"
                   style={{
-                    // marginLeft: "0",
                     display: this.state.hidden ? "block" : "none"
                   }}
                   onClick={this.editDetails}
@@ -442,31 +438,45 @@ class CustomerDetails extends Component {
                 </FormControl>
 
                 <button
-                  style={{
-                    backgroundColor: "#3371b5 ",
-                    color: "whitesmoke",
-                    border: "none",
-                    marginTop: "1%",
-                    padding: "1%",
-                    marginLeft: "77%",
-                    marginRight: "5%",
-                    marginBottom: "3%",
-                    width:"17%",
-                    display: this.state.buttonHide ? "flase" : "true"
-                  }}
-                  type="submit"
-                  className="ButtonContinue"
-                  variant="contained"
-                  color="primary"
+                  className="place-order"
                   onClick={this.onSubmit}
+                  style={{ display: this.state.buttonHide ? "false" : "true" }}
                 >
-                  CONTINUE
+                  PLACE ORDER{" "}
                 </button>
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                  }}
+                  open={this.state.open}
+                  autoHideDuration={2000}
+                  onClose={this.handleClose}
+                  ContentProps={{
+                    "aria-describedby": "message-id"
+                  }}
+                  message={
+                    <span id="message-id">
+                    Please Enter All The Required Details
+                     </span>
+                  }
+                  action={[
+                    <IconButton
+                      key="close"
+                      aria-label="Close"
+                      color="inherit"
+                      onClick={this.handleClose}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  ]}
+                />
               </form>
             </div>
           </div>
         </div>
-        {this.state.divHide == true ? (
+
+        {this.state.divHide === true ? (
           <div>
             <div
               style={{
@@ -480,40 +490,34 @@ class CustomerDetails extends Component {
             >
               <div className="orderSummary">Order Summary</div>
               {Books}
+              <div className="total-price">
+                <p id="totalprice">Total Price: Rs.{this.props.totalAmount}</p>
+              </div>
               <div style={{ display: this.state.divHide ? "true" : "false" }}>
-                <Button
-                  style={{
-                    backgroundColor: "#3371b5 ",
-                    color: "whitesmoke",
-                    border: "none",
-                    marginTop: "1%",
-                    // padding: "1%",
-                    marginLeft: "77%",
-                    marginRight: "5%",
-                    marginBottom: "3%",
-                    width:"17%",
-                  }}
+                <button
+                  className="place-order"
+                  style={{ width: "16%", marginLeft: "", padding: "1%" }}
                   onClick={() => this.onCheckout()}
-                  variant="contained"
-                  color="primary"
                 >
-                  Checkout
-                </Button>
+                  CHECKOUT{" "}
+                </button>{" "}
               </div>
             </div>
           </div>
         ) : (
-          <div
-            style={{
-              borderStyle: "groove",
-              marginLeft: "17%",
-              marginRight: "10%",
-              marginTop: "1%",
-              marginBottom: "3.9%",
-              width: "55%"
-            }}
-          >
-            <div className="orderSummary">Order Summary</div>
+          <div>
+            <div
+              style={{
+                borderStyle: "groove",
+                marginLeft: "17%",
+                marginRight: "10%",
+                marginTop: "1%",
+                marginBottom: "3.9%",
+                width: "55%"
+              }}
+            >
+              <div className="orderSummary">Order Summary</div>
+            </div>
           </div>
         )}
       </div>

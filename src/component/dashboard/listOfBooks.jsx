@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import Dashboard from "../dashboard/dashboard";
 import Footer from "../footer/footer";
 import Pagination from '@material-ui/lab/Pagination';
-var APIcall = require("../../congfiguration/BookStoreCallAPI");
-
 class dashboard extends Component {
   constructor(props) {
     super(props);
@@ -27,14 +25,14 @@ class dashboard extends Component {
       <div>
         <div>
           <div>
-            <div style={{ display: "flex", flexWrap: "wrap",marginLeft:"20px",marginLeft:"100px",marginTop:"-40px"}}>
+            <div style={{ display: "flex", flexWrap: "wrap",marginLeft:"100px",marginTop:"-40px"}}>
                   {this.props.bookList.map((value, index) => {
                 return <Dashboard key={index} value={value} getBook = {this.getbook} getWishBook={this.getWishBook}></Dashboard>;
               })}
             </div>
             
           </div>
-          <Pagination shape = "rounded" style={{display:"flex",justifyContent:"center",marginTop:"30px",marginBottom:"20px"}} count={Math.ceil(this.props.noOfRecord / 12)}
+          <Pagination shape = "rounded" style={{display:"flex",justifyContent:"center",marginTop:"50px",marginBottom:"20px"}} count={Math.ceil(this.props.noOfRecord / 12)}
             onChange = {this.props.handleChange}/>
           <Footer></Footer>
         </div>

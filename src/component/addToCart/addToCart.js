@@ -4,11 +4,9 @@ import Customer from '../addToCart/customerDeatils'
 import TopBar from "../topbar/navbar";
 import { withRouter } from 'react-router-dom';
 import Footer from "../footer/footer";
-import Checkout from '../checkout/checkout'
 class CartIcon extends Component {
     constructor(props) {
         super(props)
-        this.condition = 1
         this.count = 1
         this.state = {
             item: null,
@@ -16,28 +14,29 @@ class CartIcon extends Component {
             totalPrice: 0,
             hideForm: false,
             callCustomer: null, 
+            set : false
         }
-        if(this.condition == 1){
-        this.state.item = this.props.history.location.state
+        var documentData = JSON.parse(localStorage.getItem("document"));
+        if (localStorage.getItem("document")) {
+            this.state.item = documentData
+        }else{
+            this.state.item = this.props.history.location.state
         }
         this.state.item.map((item) => {
             { this.state.totalPrice = this.state.totalPrice + parseInt(item.Price) }
         })
     }
-    
-
     onClick = () => {
+        localStorage.clear()
         this.setState(this.state = { hideForm: !this.state.hideForm })
-        console.log("done", this.state.hideForm)
     }
 
     checkout = (data) => {
-        this.props.history.push( { pathname : '/checkout', state :{data} })
+        this.props.history.push( { pathname : '/checkout', state :data })
     }
 
     decrement = (i, price) => {
-        // this.setState({ price : this.state.price - this.state.price })
-        if (this.state.purchaseBookIndividualCount[i] != undefined) {
+        if (this.state.purchaseBookIndividualCount[i] !== undefined) {
             if (this.state.purchaseBookIndividualCount[i] > 1) {
                 this.state.purchaseBookIndividualCount[i]--;
                 this.setState({ purchaseBookIndividualCount: this.state.purchaseBookIndividualCount });
@@ -48,8 +47,7 @@ class CartIcon extends Component {
     }
 
     increment = (i, price) => {
-        // this.setState({ price : this.state.price + this.state.price })
-        if (this.state.purchaseBookIndividualCount[i] != undefined) {
+        if (this.state.purchaseBookIndividualCount[i] !== undefined) {
             this.state.purchaseBookIndividualCount[i]++;
             this.setState({ purchaseBookIndividualCount: this.state.purchaseBookIndividualCount });
             this.state.totalPrice = this.state.totalPrice + parseInt(price);
@@ -66,7 +64,7 @@ class CartIcon extends Component {
         localStorage.setItem("document",JSON.stringify(this.state.item));
     }
     render() {
-     var Books = this.props.history.location.state.map((item, i) => {
+     var Books = this.state.item.map((item, i) => {
             this.state.purchaseBookIndividualCount.push(1)
             if (item != undefined) {
                 console.log(item.Title);
@@ -97,7 +95,7 @@ class CartIcon extends Component {
       })
         return (
             <div>
-                <TopBar></TopBar>
+                <TopBar set = {this.state.set} count = {this.state.item.length}></TopBar>
             
             <div>
                 <div style={{ borderStyle: "groove", marginLeft: "17%", marginRight: "10%", marginTop: "2%", width: "55%" }}>
@@ -110,7 +108,7 @@ class CartIcon extends Component {
                 </div>
                 <div>
                     {this.state.item.length >= 1 & this.state.hideForm ?
-                        <Customer detail={this.state.item} formDetails={this.state.hideForm} checkout = {this.checkout} value = {this.state.placeorder} />
+                        <Customer detail={this.state.item} formDetails={this.state.hideForm} checkout = {this.checkout} value = {this.state.placeorder} totalAmount = {this.state.totalPrice} />
                         :
                         <div> <Customer detail={this.state.item} formDetails={this.state.hideForm}  />
                         </div>

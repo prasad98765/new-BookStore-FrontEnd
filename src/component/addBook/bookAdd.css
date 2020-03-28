@@ -14,7 +14,6 @@
 
 }
 .FormBook{
-  /* margin-top: -20%; */
   margin-left: 20%;
 }
 .FormField {
@@ -65,7 +64,4 @@
 .errorMessage {
   color: red;
   font-size: 0.75em;
-  /* display: relative; */
-  /* margin-right: 200px; */
-  /* margin-top: 5px; */
 }
