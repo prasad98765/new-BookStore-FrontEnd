@@ -13,12 +13,12 @@ export default class MenuPopupState extends Component {
   }
 
   highToLowClick = event => {
-    this.setState({field : "highToLow"})
+    this.setState({field : "highToLow(Price)"})
     this.props.sort("highToLow")
   };
 
   lowToHighClick = event => {
-    this.setState({field : "lowToHigh"})
+    this.setState({field : "lowToHigh(Price)"})
     this.props.sort("lowToHigh")
   };
 
@@ -28,12 +28,12 @@ export default class MenuPopupState extends Component {
   };
   render() {
     return (
-      <div className="dropdown" style={{ marginLeft: "77%", marginTop:"2%" }}>
-        <h4 style={{marginLeft:"-275%" ,color:"grey"}}>
+      <div  style={{ marginLeft: "77%" ,marginTop:"8%"}}>
+        <h4 style={{marginLeft:"-275%" ,color:"grey",marginTop:"4%"}}>
           Books ( {this.props.bookcount} )
         </h4>
 
-        <PopupState variant="popover" popupId="demo-popup-menu">
+        <PopupState variant="popover" popupId="demo-popup-menu" style={{marginTop:"-220px"}}>
           {popupState => (
             <React.Fragment>
               <Button
@@ -55,13 +55,13 @@ export default class MenuPopupState extends Component {
                   style={{ fontFamily: "Times New Roman", fontSize: 12 }}
                   onClick={this.highToLowClick}
                 >
-                  High-Low
+                  High-Low(Price)
                 </MenuItem>
                 <MenuItem
                   style={{ fontFamily: "Times New Roman", fontSize: 12 }}
                   onClick={this.lowToHighClick}
                 >
-                  Low-High
+                  Low-High(Price)
                 </MenuItem>
                 <MenuItem
                   style={{ fontFamily: "Times New Roman", fontSize: 12 }}

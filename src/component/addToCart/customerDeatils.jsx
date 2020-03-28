@@ -10,7 +10,6 @@ import "../../../node_modules/bootstrap/dist/css/bootstrap-grid.min.css";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import { Popover } from "@material-ui/core";
 
 var APICall = require("../../congfiguration/BookStoreCallAPI");
 
@@ -66,7 +65,7 @@ class CustomerDetails extends Component {
     this.setState({ divHide: false });
     const { name, value } = event.target;
     let errors = this.state.errors;
-    const phonenumber = RegExp("^[0-9]{10}$");
+    const phonenumber = RegExp("^[+][0-9]{2}\\s[0-9]{10}$");
     const pincode = RegExp("^[1-9][0-9]{5}$");
     const email = RegExp(
       "^[0-9a-zA-Z]+([-,_,+,.]{1}[0-9A-Za-z]+){0,1}@[0-9A-Za-z]+.[A-Za-z]{1,3}(.[a-zA-Z]{1,3}){0,1}$"
@@ -484,7 +483,7 @@ class CustomerDetails extends Component {
                 marginLeft: "17%",
                 marginRight: "10%",
                 marginTop: "2.9%",
-                marginBottom: "2%",
+                marginBottom: "6.9%",
                 width: "55%"
               }}
             >
@@ -512,7 +511,7 @@ class CustomerDetails extends Component {
                 marginLeft: "17%",
                 marginRight: "10%",
                 marginTop: "1%",
-                marginBottom: "3.9%",
+                marginBottom: "6.9%",
                 width: "55%"
               }}
             >

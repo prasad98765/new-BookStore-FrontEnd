@@ -98,7 +98,7 @@ class CartIcon extends Component {
                 <TopBar set = {this.state.set} count = {this.state.item.length}></TopBar>
             
             <div>
-                <div style={{ borderStyle: "groove", marginLeft: "17%", marginRight: "10%", marginTop: "2%", width: "55%" }}>
+                <div style={{ borderStyle: "groove", marginLeft: "17%", marginRight: "10%", marginTop: "8%", width: "55%" }}>
                     <div className="cart-title">My Cart({this.state.item.length})</div>
                     {Books}
                     <div s>

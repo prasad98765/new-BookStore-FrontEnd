@@ -32,7 +32,7 @@ class dashboard extends Component {
             </div>
             
           </div>
-          <Pagination shape = "rounded" style={{display:"flex",justifyContent:"center",marginTop:"50px",marginBottom:"20px"}} count={Math.ceil(this.props.noOfRecord / 12)}
+          <Pagination shape = "rounded" style={{display:"flex",justifyContent:"center",marginTop:"3%",marginBottom:"6%"}} count={Math.ceil(this.props.noOfRecord / 12)}
             onChange = {this.props.handleChange}/>
           <Footer></Footer>
         </div>

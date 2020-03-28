@@ -40,6 +40,7 @@ class dashboard extends Component {
       };
       this.props.getBook(addToCartBook);
       this.setState({
+        open:true,
         widths: 165,
         message: "Added To Bag",
         backgroundColor: "blue",
@@ -73,7 +74,7 @@ class dashboard extends Component {
             maxWidth: 180,
             height: 270,
             marginLeft: 80,
-            marginTop: 20,
+            marginTop: 30,
             boxShadow: " 0 4px 8px 0 rgba(0,0,0,0.2)",
             transition: "0.3s"
           }}
@@ -235,7 +236,6 @@ class dashboard extends Component {
                 <div className="button2">
                   <Button
                     onClick={this.handleWishListButtonClick}
-                    disabled={!this.state.button}
                     className={this.state.button ? "buttonTrue" : "buttonFalse"}
                     style={{
                       borderStyle: "solid",

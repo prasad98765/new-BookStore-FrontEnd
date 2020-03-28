@@ -13,7 +13,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+y
 div{
   display:flex;
   color:#fff;
@@ -72,7 +72,7 @@ div{
   margin-left:"15%";
 }  */
 
-.buttonTrue{
+/* .buttonTrue{
   width: 70;
   height: 30;
   margin-top: -70;
@@ -88,4 +88,4 @@ div{
   font-family: "Times New Roman";
   color: "black";
   font-size: "0.60em"
-  }
+  } */

@@ -4,7 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 export default function ButtonAppBar() {
   return (
-    <div className="">
+    <div style={{position:"fixed",bottom:"0px",overflow:"hide",width:"100%"}}>
       <AppBar position="static" style={{ backgroundColor: "#2E1D1E" }}>
         <Toolbar>
           <Typography

@@ -13,6 +13,7 @@ class BookStoreFirstPage extends Component {
       sortfield: null,
       page: 1,
       ALLBOOKS: [],
+      addToWishList :null,
       noOfRecord: null,
       addToCart: null,
       count: 0,
@@ -90,12 +91,15 @@ class BookStoreFirstPage extends Component {
   };
 
   render() {
+    console.log("add TO Wish list ",this.state.addToWishList);
+    
     return (
       <div>
         <TopBar
           bookList={this.state.ALLBOOKS}
           value={this.handleSearch}
           value1={this.addToCart}
+          wishList = {this.state.addToWishList}
           count={this.state.count}
           wishCount={this.state.wishCount}
           login={this.login}
@@ -117,6 +121,7 @@ class BookStoreFirstPage extends Component {
         <ListOfBooks
           bookList={this.state.ALLBOOKS}
           handleChange={this.handleChange}
+          
           getBookToaddToCart={this.getBookToaddToCart}
           getBookToWishList={this.getBookToWishList}
           noOfRecord={this.state.noOfRecord}

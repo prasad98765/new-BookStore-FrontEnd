@@ -18,7 +18,7 @@ class OrderPlaced extends Component {
     super(props);
     this.state = {
       data: "",
-      set : false
+      set: false
     };
   }
   ContinueShppling = () => {
@@ -26,11 +26,15 @@ class OrderPlaced extends Component {
   };
   render() {
     return (
-      <div>
-        <Navbar set = {this.state.set} />
+      <div
+        style={{
+          marginTop: "8%",
+        }}
+      >
+        <Navbar set={this.state.set} />
         <div className="mainDiv">
           <div className="orderImage">
-            <img src={orderImage} style = {{height : "200px"}} />
+            <img src={orderImage} style={{ height: "210px",width:"50%",marginTop:"-3%" }} />
           </div>
           <div className="orderMessage">
             <p className="messageParagraph">
@@ -38,7 +42,8 @@ class OrderPlaced extends Component {
               hurray!!!your order is confirmed
             </p>
             <p className="messageParagraph">
-              the order id is #{this.props.history.location.state.ID} save the order id
+              the order id is #{this.props.history.location.state.ID} save the
+              order id
             </p>
             <p className="messageParagraph">for further communication..</p>
           </div>
@@ -57,14 +62,11 @@ class OrderPlaced extends Component {
                 </TableHead>
                 <TableBody>
                   <TableRow>
+                    <TableCell align="center">ebookStore@gmail.com </TableCell>
+                    <TableCell align="center">7798917132</TableCell>
                     <TableCell align="center">
-                      ebookStore@gmail.com{" "}
-                    </TableCell>
-                    <TableCell align="center">
-                      7798917132
-                    </TableCell>
-                    <TableCell align="center">
-                    Malhotra Chambers, First Floor, Govandi East, Mumbai, Maharashtra 400088
+                      Malhotra Chambers, First Floor, Govandi East, Mumbai,
+                      Maharashtra 400088
                     </TableCell>
                   </TableRow>
                 </TableBody>
