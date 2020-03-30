@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 import { withRouter } from 'react-router-dom';
 var APICall = require('../../congfiguration/BookStoreCallAPI')
 const emailRegex = RegExp(
@@ -25,7 +28,9 @@ class SignInForm extends Component {
       formErrors: {
         EMAIL: "",
         PASSWORD: ""
-      }
+      },
+      open: false,
+      setOpen: true
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -59,15 +64,19 @@ class SignInForm extends Component {
       EMAIL : this.state.EMAIL,
       PASSWORD : this.state.PASSWORD
     }
+    this.setState({ open: true });
+    this.setState({ setOpen: true });
     APICall.login(loginDetails).then(res => {     
       if(res.data.data === true){
         this.props.history.push({ pathname: "/addBook" });
       }else{
+       
       }
     })
+   
   }
 
-  handleSubmit(e) {
+  handleSubmit(e) {    
     if (formValid(this.state)) {
       console.log(`
         --SUBMITTING--
@@ -76,8 +85,17 @@ class SignInForm extends Component {
       `);
     } else {
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
+      this.setState({ open: true });
+      this.setState({ setOpen: false });       
     }
   }
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ open: false });
+  };
 
   render() {
     const { formErrors } = this.state;
@@ -157,7 +175,41 @@ class SignInForm extends Component {
           <div className="FormField">
             <button className="FormField__Button mr-20"style={{marginTop:"10%",marginLeft:"100%"}} onClick = {this.login}>Sign In</button>
           </div>
-        
+          {this.state.setOpen ? (
+              <div>
+               <Snackbar
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                  }}
+                  open={this.state.open}
+                  autoHideDuration={900}
+                  onClose={this.handleClose}
+                  ContentProps={{
+                    "aria-describedby": "message-id"
+                  }}
+                  message={
+                    <span id="message-id">
+                    Invalid Password
+                     </span>
+                  }
+                  action={[
+                    <IconButton
+                      key="close"
+                      aria-label="Close"
+                      color="inherit"
+                      onClick={this.handleClose}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  ]}
+                />
+              </div>
+            ) : (
+              <div>
+               ""
+              </div>
+            )}
       </div>
     );
   }

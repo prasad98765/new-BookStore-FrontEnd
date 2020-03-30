@@ -4,6 +4,7 @@ import TopBar from "../topbar/navbar";
 import Sorting from "../dropDownSorting/dropdown";
 import { withRouter } from "react-router-dom";
 import { Typography } from "@material-ui/core";
+import Image from "/home/admin1/Desktop/new front End/new-BookStore-FrontEnd/src/Image/not found.png"
 import '../FrontPage/bookStoreFirstPage.css'
 var APIcall = require("../../congfiguration/BookStoreCallAPI");
 class BookStoreFirstPage extends Component {
@@ -14,11 +15,12 @@ class BookStoreFirstPage extends Component {
       page: 1,
       ALLBOOKS: [],
       addToWishList :null,
+      bookCount : false,
       noOfRecord: null,
       addToCart: null,
       count: 0,
       wishCount: 0,
-      search: true
+      search: true,
     };
   }
 
@@ -109,13 +111,14 @@ class BookStoreFirstPage extends Component {
           bookcount={this.state.noOfRecord}
           value={this.handleSorting}
           page={this.state.page}
+          search={this.state.search}
           sort={this.getSorting}
         />
         {this.state.search ? (
           <div></div>
         ) : (
           <div>
-            <Typography className="notFound">No Books Found</Typography>
+            <img src={Image}style={{display:"flex",marginLeft:"25%",width:"50%",height:"500px",marginBottom:"",marginTop:"-10%"}} ></img>
           </div>
         )}
         <ListOfBooks

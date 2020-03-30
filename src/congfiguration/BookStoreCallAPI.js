@@ -55,6 +55,8 @@ export function getSortData(data) {
   }
   
   export function userDetails(data) {
+    console.log("in axioz ",data);
+    
     return axios({
       method: "POST",
       url: "http://localhost:3000/userDetails",

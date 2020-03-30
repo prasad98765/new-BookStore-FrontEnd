@@ -29,13 +29,20 @@ export default class MenuPopupState extends Component {
   render() {
     return (
       <div  style={{ marginLeft: "77%" ,marginTop:"8%"}}>
-        <h4 style={{marginLeft:"-275%" ,color:"grey",marginTop:"4%"}}>
-          Books ( {this.props.bookcount} )
-        </h4>
+        {this.props.search == false ? (
+            <h4 style={{marginLeft:"-275%" ,color:"grey",marginTop:"4%"}}>
+            Books ( 0 )
+          </h4>
+        ) : (
+          <h4 style={{marginLeft:"-275%" ,color:"grey",marginTop:"4%"}}>
+           Books ( {this.props.bookcount} )
+         </h4>
+      )}
 
         <PopupState variant="popover" popupId="demo-popup-menu" style={{marginTop:"-220px"}}>
           {popupState => (
             <React.Fragment>
+              {this.props.search == true ? (
               <Button
                 {...bindTrigger(popupState)}
                 style={{
@@ -49,7 +56,12 @@ export default class MenuPopupState extends Component {
                 }}
               >
                 {this.state.field}
+              
               </Button>
+                ) : (
+                  ""
+              )}
+              
               <Menu {...bindMenu(popupState)}>
                 <MenuItem
                   style={{ fontFamily: "Times New Roman", fontSize: 12 }}
@@ -70,6 +82,7 @@ export default class MenuPopupState extends Component {
                   Newest Arrival
                 </MenuItem>
               </Menu>
+             
             </React.Fragment>
           )}
         </PopupState>

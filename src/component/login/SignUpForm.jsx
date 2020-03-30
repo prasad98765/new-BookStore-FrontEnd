@@ -1,10 +1,15 @@
 import React, { Component } from "react";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Button from "@material-ui/core/Button";
+
 var APICall = require("../../congfiguration/BookStoreCallAPI");
 const emailRegex = RegExp(
   "^[a-zA-Z0-9]([._+-]{0,1}[a-zA-Z0-9])*[@]{1}[a-zA-Z0-9]{1,}[.]{1}[a-zA-Z]{2,3}([.]{1}[a-zA-Z]{2,3}){0,1}$"
 );
-const mobileRegex = RegExp("^[0-9]{2}\\s[0-9]{10}$");
+const mobileRegex = RegExp("^([+]?([0-9]{1,3})?[ ]?){1}[0-9]{5}[ ]?[0-9]{5}$");
 const formValid = ({ formErrors, ...rest }) => {
   let valid = true;
   Object.values(formErrors).forEach(val => {
@@ -30,12 +35,15 @@ class SignUpForm extends Component {
         NAME: "",
         CONTACT: "",
         hasAgreed: false
-      }
+      },
+      setOpen: true,
+      open: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   handleChange = e => {
     e.preventDefault();
     let target = e.target;
@@ -79,8 +87,18 @@ class SignUpForm extends Component {
       `);
     } else {
       console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
+      this.setState({ open: true });
+      this.setState({ setOpen: false });
     }
   }
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ open: false });
+  };
+
   submit = () => {
     var adminDetails = {
       NAME: this.state.NAME,
@@ -88,10 +106,17 @@ class SignUpForm extends Component {
       PASSWORD: this.state.PASSWORD,
       MOBILENO: this.state.CONTACT
     };
+    this.setState({ open: true });
+    this.setState({ setOpen: false });
     APICall.adminDetails(adminDetails).then(res => {
       console.log("after craete data", res.data.data);
     });
+    
+
   };
+
+  
+  
   render() {
     const { formErrors } = this.state;
     return (
@@ -105,7 +130,7 @@ class SignUpForm extends Component {
           borderStyle: "outset"
         }}
       >
-        <form onSubmit={this.handleSubmit} npValidate className="FormFields">
+        <div onSubmit={this.handleSubmit} npValidate className="FormFields">
           <div
             className="FormField"
             style={{ marginLeft: "-10%", marginTop: "10%" }}
@@ -235,14 +260,79 @@ class SignUpForm extends Component {
             </div>
           </div>
           <div className="FormField">
-            <button className="FormField__Button mr-20" style={{marginTop:"30%",marginLeft:"-130%"}} onClick={this.submit}>
+            <button
+              className="FormField__Button mr-20"
+              style={{ marginTop: "30%", marginLeft: "-130%" }}
+              onClick={this.submit}
+            >
               Sign Up
             </button>
-            {""}
           </div>
-        </form>
+        </div>
+        {this.state.setOpen ? (
+              <div>
+               <Snackbar
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                  }}
+                  open={this.state.open}
+                  autoHideDuration={5000}
+                  onClose={this.handleClose}
+                  ContentProps={{
+                    "aria-describedby": "message-id"
+                  }}
+                  message={
+                    <span id="message-id">
+                    Please Enter All The Required Details
+                     </span>
+                  }
+                  action={[
+                    <IconButton
+                      key="close"
+                      aria-label="Close"
+                      color="inherit"
+                      onClick={this.handleClose}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  ]}
+                />
+              </div>
+            ) : (
+              <div>
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                  }}
+                  open={this.state.open}
+                  autoHideDuration={1000}
+                  onClose={this.handleClose}
+                  ContentProps={{
+                    "aria-describedby": "message-id"
+                  }}
+                  message={
+                    <span id="message-id">
+                      login done
+                     </span>
+                  }
+                  action={[
+                    <IconButton
+                      key="close"
+                      aria-label="Close"
+                      color="inherit"
+                      onClick={this.handleClose}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  ]}
+                />
+              </div>
+            )}
       </div>
     );
   }
 }
 export default withRouter(SignUpForm);
+

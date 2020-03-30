@@ -25,6 +25,8 @@ class OrderPlaced extends Component {
     this.props.history.push({ pathname: "/" });
   };
   render() {
+    console.log("in check out class",this.props.history.location.state);
+    
     return (
       <div
         style={{
@@ -42,7 +44,7 @@ class OrderPlaced extends Component {
               hurray!!!your order is confirmed
             </p>
             <p className="messageParagraph">
-              the order id is #{this.props.history.location.state.ID} save the
+              the order id is #{this.props.history.location.state} save the
               order id
             </p>
             <p className="messageParagraph">for further communication..</p>

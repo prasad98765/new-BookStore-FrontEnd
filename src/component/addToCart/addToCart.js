@@ -16,8 +16,8 @@ class CartIcon extends Component {
             callCustomer: null, 
             set : false
         }
-        var documentData = JSON.parse(localStorage.getItem("document"));
-        if (localStorage.getItem("document")) {
+        var documentData = JSON.parse(localStorage.getItem("add to Cart"));
+        if (localStorage.getItem("add to Cart")) {
             this.state.item = documentData
         }else{
             this.state.item = this.props.history.location.state
@@ -27,11 +27,12 @@ class CartIcon extends Component {
         })
     }
     onClick = () => {
-        localStorage.clear()
         this.setState(this.state = { hideForm: !this.state.hideForm })
     }
 
     checkout = (data) => {
+        console.log("in add to cart class " ,data);
+        
         this.props.history.push( { pathname : '/checkout', state :data })
     }
 
@@ -61,7 +62,7 @@ class CartIcon extends Component {
         this.setState({ totalPrice: this.state.totalPrice })
         this.state.item.splice(i, 1);
         this.setState({ item: this.state.item })
-        localStorage.setItem("document",JSON.stringify(this.state.item));
+        localStorage.setItem("add to Cart",JSON.stringify(this.state.item));
     }
     render() {
      var Books = this.state.item.map((item, i) => {

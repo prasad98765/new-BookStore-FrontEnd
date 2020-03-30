@@ -19,6 +19,7 @@ class CustomerDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      orderId: "",
       Name: "",
       Phone_Number: "",
       Pincode: "",
@@ -65,7 +66,7 @@ class CustomerDetails extends Component {
     this.setState({ divHide: false });
     const { name, value } = event.target;
     let errors = this.state.errors;
-    const phonenumber = RegExp("^[+][0-9]{2}\\s[0-9]{10}$");
+    const phonenumber = RegExp("^[0-9]{10}$");
     const pincode = RegExp("^[1-9][0-9]{5}$");
     const email = RegExp(
       "^[0-9a-zA-Z]+([-,_,+,.]{1}[0-9A-Za-z]+){0,1}@[0-9A-Za-z]+.[A-Za-z]{1,3}(.[a-zA-Z]{1,3}){0,1}$"
@@ -73,10 +74,13 @@ class CustomerDetails extends Component {
 
     switch (name) {
       case "Name":
-        errors.Name = value.length < 2 ? "Full Name must be 5 characters long!" : "";
+        errors.Name =
+          value.length < 2 ? "Full Name must be 5 characters long!" : "";
         break;
       case "Phone_Number":
-        errors.Phone_Number = phonenumber.test(value) ? "" : "Phone Number is not valid!";
+        errors.Phone_Number = phonenumber.test(value)
+          ? ""
+          : "Phone Number is not valid!";
         break;
       case "Pincode":
         errors.Pincode = pincode.test(value) ? "" : "Pin code is not valid!";
@@ -153,7 +157,7 @@ class CustomerDetails extends Component {
         this.state.city.length > 3 &&
         this.state.LandMark.length > 3
       ) {
-        this.setState({open : false});
+        this.setState({ open: false });
         this.setState({ divHide: false });
         this.setState({ validation: true });
 
@@ -166,11 +170,10 @@ class CustomerDetails extends Component {
       this.setState({ buttonHide: !this.state.buttonHide });
       this.setState({ hidden: !this.state.hidden });
       this.setState({ divHide: true });
-      this.setState({open : false});
-
+      this.setState({ open: false });
     } else {
       console.error("Invalid Form");
-      this.setState({open : true});
+      this.setState({ open: true });
     }
     var CustomerDetails = {
       NAME: this.state.Name,
@@ -204,18 +207,27 @@ class CustomerDetails extends Component {
       LANDMARK: this.state.LandMark,
       TYPE: this.state.Type
     };
-    localStorage.clear();
     APICall.userDetails(details).then(res => {
+      this.setState({ orderId: res.data.data._id });
+      this.props.checkout(res.data.data._id);
+      console.log("id",res.data.data._id);
+      
       APICall.sendEmail({
         ID: res.data.data._id,
         EMAIL: res.data.data.EMAIL,
-        Books: this.orderBook
-      }).then(res => {});
+        Name : res.data.data.NAME,
+        Address : res.data.data.ADDRESS,
+        Books: this.state.item[0].Title
+      }).
+      then(res => {});
     });
-    this.props.checkout(details);
+    this.props.checkout(this.state.orderId);
+    localStorage.clear();
   };
 
   render() {
+    console.log("in cust Details class",this.state.item[0].Title);
+
     const { errors } = this.state;
     var Books = this.state.item.map((item, i) => {
       this.orderBook = item.Title + " ";
@@ -272,6 +284,8 @@ class CustomerDetails extends Component {
                   className="editButton"
                   component="span"
                   style={{
+                    marginTop: "-5%",
+                    marginLeft: "85%",
                     display: this.state.hidden ? "block" : "none"
                   }}
                   onClick={this.editDetails}
@@ -441,7 +455,7 @@ class CustomerDetails extends Component {
                   onClick={this.onSubmit}
                   style={{ display: this.state.buttonHide ? "false" : "true" }}
                 >
-                  PLACE ORDER{" "}
+                  CONTINUE{" "}
                 </button>
                 <Snackbar
                   anchorOrigin={{
@@ -456,8 +470,8 @@ class CustomerDetails extends Component {
                   }}
                   message={
                     <span id="message-id">
-                    Please Enter All The Required Details
-                     </span>
+                      Please Enter All The Required Details
+                    </span>
                   }
                   action={[
                     <IconButton

@@ -1,26 +1,19 @@
 import React, { Component } from "react";
+import Snackbar from "@material-ui/core/Snackbar";
+
+import { Typography } from "@material-ui/core";
 import "../addBook/bookAdd.css";
 var APIcall = require("../../congfiguration/BookStoreCallAPI");
+
 const ratings = RegExp("^[0-5][.][0-5]$");
 const titles = RegExp("^[A-Z]{1}");
 const author = RegExp("^[A-Z]{1}");
 const description = RegExp("^[A-Z]{1}");
 const year = RegExp("^[12][0-9]{3}$");
 const price = RegExp("^[0-9]");
-const formValid = ({ formErrors, ...rest }) => {
-  let valid = true;
-  Object.values(formErrors).forEach(val => {
-    val.length > 0 && (valid = false);
-  });
-  Object.values(rest).forEach(val => {
-    val === null && (valid = false);
-  });
-  return valid;
-};
-
-class SignUpForm extends Component {
-  constructor() {
-    super();
+class AddBook extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       TITLE: null,
       AUTHOR: null,
@@ -28,6 +21,7 @@ class SignUpForm extends Component {
       RATING: null,
       PRICE: null,
       DESCRIPTION: null,
+      condition: true,
       COUNT: 0,
       formErrors: {
         TITLE: "",
@@ -38,10 +32,13 @@ class SignUpForm extends Component {
         DESCRIPTION: "",
         FILE: null,
         IMAGEPATH: ""
-      }
+      },
+      open: false,
+      setOpen: false
     };
+
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange = e => {
@@ -78,31 +75,13 @@ class SignUpForm extends Component {
           value
         )
           ? ""
-          : "please enter valid author name";
+          : "please enter description ";
         break;
       default:
         break;
     }
     this.setState({ formErrors, [name]: value }, () => console.log(this.state));
   };
-
-  handleSubmit(e) {
-    e.preventDefault();
-    if (formValid(this.state)) {
-      console.log(`
-          --SUBMITTING--
-          title Name: ${this.state.TITLE}
-          Email: ${this.state.AUTHOR}
-          Password: ${this.state.YEAR}
-          contact:${this.state.RATING}
-          contact:${this.state.PRICE}
-          contact:${this.state.DESCRIPTION}
-        `);
-    } else {
-      console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
-    }
-  }
-
   getfile = async event => {
     this.setState({ FILE: event.target.files[0] });
     const formData = new FormData();
@@ -126,6 +105,7 @@ class SignUpForm extends Component {
   };
 
   getbookdetails = () => {
+    this.setState({ condition: false });
     const bookDetails = {
       TITLE: this.state.TITLE,
       AUTHOR: this.state.AUTHOR,
@@ -136,17 +116,28 @@ class SignUpForm extends Component {
       IMAGEPATH: this.state.IMAGEPATH,
       NOOFBOOKS: this.state.COUNT
     };
-    APIcall.BookDetails(bookDetails)
-      .then(res => {
-      })
+    APIcall.BookDetails(bookDetails).then(res => {});
+    this.setState({ open: true });
+    this.setState({ setOpen: true });
   };
+
   getCountIncrement = () => {
     this.setState({
       COUNT: this.state.COUNT + 1
     });
   };
 
+  handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ setOpen: false });
+    this.setState({ open: false });
+  }
+
   render() {
+    console.log(this.state.COUNT);
+
     const { formErrors } = this.state;
     return (
       <div className="fullBG">
@@ -251,6 +242,17 @@ class SignUpForm extends Component {
               </div>
             </div>
             <div className="FormField">
+              <label className="FormField__Label">number of Books</label>
+              <input
+                value={this.state.value}
+                onChange={this.handleChange}
+                type="Number"
+                className="FormField__Input"
+                placeholder="Rating of book"
+                name="COUNT"
+              />
+            </div>
+            <div className="FormField">
               <input
                 accept="image/*"
                 type="file"
@@ -259,38 +261,39 @@ class SignUpForm extends Component {
                 onChange={this.getfile}
               />
             </div>
-          </form>
-          <div className="FormField">
-            <div style={{ fontSize: "80%" }}> Number Of Books</div>
-            <div style={{ marginTop: "4%" }}>
+            <div className="FormField">
               <button
-                style={{ fontSize: "medium", marginRight: "4%" }}
-                onClick={this.decrement}
+                type="submit"
+                className="FormField__Button mr-20"
+                onClick={this.getbookdetails}
               >
-                -
+                Submit
               </button>
-              <button style={{ fontSize: "medium", marginRight: "4%" }}>
-                {this.state.COUNT}
-              </button>
-              <button style={{ fontSize: "medium" }} onClick={this.increment}>
-                +
-              </button>
+              {this.state.setOpen ? (
+                <div>
+                  <Snackbar
+                    open={this.state.open}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                    message="Successfully Book Added"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <Snackbar
+                    open={this.state.open}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                    message="Please enter all the details"
+                  />
+                </div>
+              )}
             </div>
-          </div>
-
-          <div className="FormField">
-            <button
-              type="submit"
-              className="FormField__Button mr-20"
-              onClick={this.getbookdetails}
-            >
-              Submit
-            </button>
-          </div>
+          </form>
         </div>
       </div>
     );
   }
 }
 
-export default SignUpForm;
+export default AddBook;

@@ -149,7 +149,7 @@ class dashboard extends Component {
                       marginTop: -45
                     }}
                   >
-                    {this.props.value.PRICE}
+                    Rs. {this.props.value.PRICE}
                   </Typography>
                 </CardContent>
               </CardActionArea>
@@ -208,7 +208,7 @@ class dashboard extends Component {
                       marginTop: -45
                     }}
                   >
-                    {this.props.value.PRICE}
+                    Rs. {this.props.value.PRICE}
                   </Typography>
                 </CardContent>
               </CardActionArea>
