@@ -70,7 +70,7 @@ class SignInForm extends Component {
       if(res.data.data === true){
         this.props.history.push({ pathname: "/addBook" });
       }else{
-       
+        
       }
     })
    
@@ -183,14 +183,14 @@ class SignInForm extends Component {
                     horizontal: "center"
                   }}
                   open={this.state.open}
-                  autoHideDuration={900}
+                  autoHideDuration={2000}
                   onClose={this.handleClose}
                   ContentProps={{
                     "aria-describedby": "message-id"
                   }}
                   message={
                     <span id="message-id">
-                    Invalid Password
+                    Your password is invalid. Please try again.
                      </span>
                   }
                   action={[

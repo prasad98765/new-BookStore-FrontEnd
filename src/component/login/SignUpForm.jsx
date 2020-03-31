@@ -106,8 +106,13 @@ class SignUpForm extends Component {
       PASSWORD: this.state.PASSWORD,
       MOBILENO: this.state.CONTACT
     };
+    if(this.state.NAME == null || this.state.EMAIL == null ||  this.state.PASSWORD == null || this.state.CONTACT == null ){
+      this.setState({ open: true });
+    this.setState({ setOpen: true });
+    }else{
     this.setState({ open: true });
     this.setState({ setOpen: false });
+    }
     APICall.adminDetails(adminDetails).then(res => {
       console.log("after craete data", res.data.data);
     });
@@ -277,7 +282,7 @@ class SignUpForm extends Component {
                     horizontal: "center"
                   }}
                   open={this.state.open}
-                  autoHideDuration={5000}
+                  autoHideDuration={2000}
                   onClose={this.handleClose}
                   ContentProps={{
                     "aria-describedby": "message-id"
@@ -307,14 +312,14 @@ class SignUpForm extends Component {
                     horizontal: "center"
                   }}
                   open={this.state.open}
-                  autoHideDuration={1000}
+                  autoHideDuration={2000}
                   onClose={this.handleClose}
                   ContentProps={{
                     "aria-describedby": "message-id"
                   }}
                   message={
                     <span id="message-id">
-                      login done
+                      Congratulations! Your account has been created
                      </span>
                   }
                   action={[

@@ -33,7 +33,7 @@ class OrderPlaced extends Component {
           marginTop: "8%",
         }}
       >
-        <Navbar set={this.state.set} />
+        <Navbar set={this.state.set} homepage = {this.ContinueShppling}/>
         <div className="mainDiv">
           <div className="orderImage">
             <img src={orderImage} style={{ height: "210px",width:"50%",marginTop:"-3%" }} />

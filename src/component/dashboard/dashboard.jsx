@@ -28,7 +28,6 @@ class dashboard extends Component {
     };
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleWishListButtonClick = this.handleWishListButtonClick.bind(this);
-    var documentData = JSON.parse(localStorage.getItem("document"));
   }
   async handleButtonClick() {
     if (this.state.button1 === "buttonTrue") {

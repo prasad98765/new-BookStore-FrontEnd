@@ -148,6 +148,10 @@ class PrimarySearchAppBar extends React.Component {
     }
 
   }
+  backtohomePage =()=> {
+    this.props.homepage()
+    
+  }
 
   render() {
     console.log("rex wish list book", this.props.wishList);
@@ -194,26 +198,13 @@ class PrimarySearchAppBar extends React.Component {
           </IconButton>
           <p>WishList</p>
         </MenuItem>
-        {/* {this.state.login === true  ? (
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <a href="TextField" link to="/adminlogin">
-            {" "}
-            Profile
-          </a>
-        </MenuItem>
-         ) : (
-          ""
-        )} */}
       </Menu>
     );
     return (
       <div className={classes.root}>
         <AppBar position="static" style={{ backgroundColor: "#800000", position: "fixed", marginTop: "-8%" }}>
           <Toolbar>
-            <IconButton style={{ marginLeft: "11%" }} color="inherit">
+            <IconButton style={{ marginLeft: "11%" }} color="inherit" onClick = {this.backtohomePage}>
               <MenuBookIcon
                 style={{ width: 40, fontSize: "33px", marginTop: "-7px" }}
               />

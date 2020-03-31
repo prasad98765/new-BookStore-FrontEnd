@@ -14,7 +14,8 @@ class CartIcon extends Component {
             totalPrice: 0,
             hideForm: false,
             callCustomer: null, 
-            set : false
+            set : false,
+            show : true
         }
         var documentData = JSON.parse(localStorage.getItem("add to Cart"));
         if (localStorage.getItem("add to Cart")) {
@@ -27,8 +28,12 @@ class CartIcon extends Component {
         })
     }
     onClick = () => {
+        this.setState({show : false})
         this.setState(this.state = { hideForm: !this.state.hideForm })
     }
+    homepage = value => {
+        this.props.history.push({ pathname: "/" });
+      };
 
     checkout = (data) => {
         console.log("in add to cart class " ,data);
@@ -96,7 +101,7 @@ class CartIcon extends Component {
       })
         return (
             <div>
-                <TopBar set = {this.state.set} count = {this.state.item.length}></TopBar>
+                <TopBar set = {this.state.set} count = {this.state.item.length} homepage = {this.homepage}></TopBar>
             
             <div>
                 <div style={{ borderStyle: "groove", marginLeft: "17%", marginRight: "10%", marginTop: "8%", width: "55%" }}>
@@ -104,7 +109,11 @@ class CartIcon extends Component {
                     {Books}
                     <div s>
                     <div className="total-price"><p id="totalprice">Total Price: Rs.{this.state.totalPrice}</p></div>
+                    {this.state.show ? (
                     <button className="place-order" onClick={this.onClick} >PLACE ORDER </button>
+                    ) : (
+                        <p>    </p>
+                    )}
                     </div>
                 </div>
                 <div>

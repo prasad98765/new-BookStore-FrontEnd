@@ -111,6 +111,7 @@ class CustomerDetails extends Component {
   };
 
   componentWillMount() {
+    this.setState({show : true})
     this.documentData = JSON.parse(localStorage.getItem("document"));
     if (localStorage.getItem("document")) {
       this.setState({
@@ -132,7 +133,8 @@ class CustomerDetails extends Component {
         Locality: "",
         Address: "",
         city: "",
-        LandMark: ""
+        LandMark: "",
+        show : true
       });
     }
   }
@@ -160,6 +162,7 @@ class CustomerDetails extends Component {
         this.setState({ open: false });
         this.setState({ divHide: false });
         this.setState({ validation: true });
+        this.setState({show : false})
 
         Object.values(errors).forEach(val => val.length > 0 && (valid = false));
         return valid;
@@ -193,6 +196,7 @@ class CustomerDetails extends Component {
     if (reason === "clickaway") {
       return;
     }
+    this.setState({show : true})
     this.setState({ open: false });
   };
 
@@ -449,7 +453,7 @@ class CustomerDetails extends Component {
                     />
                   </RadioGroup>
                 </FormControl>
-
+                {this.state.show ? (
                 <button
                   className="place-order"
                   onClick={this.onSubmit}
@@ -457,6 +461,9 @@ class CustomerDetails extends Component {
                 >
                   CONTINUE{" "}
                 </button>
+                  ) : (
+                    ""
+                )}
                 <Snackbar
                   anchorOrigin={{
                     vertical: "top",

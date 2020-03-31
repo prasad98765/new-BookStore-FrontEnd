@@ -105,6 +105,7 @@ class BookStoreFirstPage extends Component {
           count={this.state.count}
           wishCount={this.state.wishCount}
           login={this.login}
+          homepage = {this.homepage}
         />
         <Sorting
           bookList={this.state.ALLBOOKS}
