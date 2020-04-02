@@ -4,8 +4,8 @@ import TopBar from "../topbar/navbar";
 import Sorting from "../dropDownSorting/dropdown";
 import { withRouter } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import Image from "/home/admin1/Desktop/new front End/new-BookStore-FrontEnd/src/Image/not found.png"
-import '../FrontPage/bookStoreFirstPage.css'
+import Image from "/home/admin1/Desktop/new front End/new-BookStore-FrontEnd/src/Image/not found.png";
+import "../FrontPage/bookStoreFirstPage.css";
 var APIcall = require("../../congfiguration/BookStoreCallAPI");
 class BookStoreFirstPage extends Component {
   constructor(props) {
@@ -14,13 +14,13 @@ class BookStoreFirstPage extends Component {
       sortfield: null,
       page: 1,
       ALLBOOKS: [],
-      addToWishList :null,
-      bookCount : false,
+      addToWishList: null,
+      bookCount: false,
       noOfRecord: null,
       addToCart: null,
       count: 0,
       wishCount: 0,
-      search: true,
+      search: true
     };
   }
 
@@ -55,7 +55,7 @@ class BookStoreFirstPage extends Component {
   }
   addToCart = value => {
     if (!this.state.addToCart) {
-      this.homepage()
+      this.homepage();
     } else {
       this.props.history.push({
         pathname: "/addToCart",
@@ -69,7 +69,7 @@ class BookStoreFirstPage extends Component {
       state: this.state.addToCart
     });
   };
-  
+
   homepage = value => {
     this.props.history.push({ pathname: "/" });
   };
@@ -93,19 +93,17 @@ class BookStoreFirstPage extends Component {
   };
 
   render() {
-    console.log("add TO Wish list ",this.state.addToWishList);
-    
     return (
       <div>
         <TopBar
           bookList={this.state.ALLBOOKS}
           value={this.handleSearch}
           value1={this.addToCart}
-          wishList = {this.state.addToWishList}
+          wishList={this.state.addToWishList}
           count={this.state.count}
           wishCount={this.state.wishCount}
           login={this.login}
-          homepage = {this.homepage}
+          homepage={this.homepage}
         />
         <Sorting
           bookList={this.state.ALLBOOKS}
@@ -119,13 +117,23 @@ class BookStoreFirstPage extends Component {
           <div></div>
         ) : (
           <div>
-            <img src={Image}style={{display:"flex",marginLeft:"25%",width:"50%",height:"500px",marginBottom:"",marginTop:"-10%"}} ></img>
+            <img
+              src={Image}
+              style={{
+                display: "flex",
+                marginLeft: "25%",
+                width: "50%",
+                height: "500px",
+                marginBottom: "",
+                marginTop: "-10%"
+              }}
+            ></img>
           </div>
         )}
         <ListOfBooks
           bookList={this.state.ALLBOOKS}
           handleChange={this.handleChange}
-          
+          search={this.state.search}
           getBookToaddToCart={this.getBookToaddToCart}
           getBookToWishList={this.getBookToWishList}
           noOfRecord={this.state.noOfRecord}

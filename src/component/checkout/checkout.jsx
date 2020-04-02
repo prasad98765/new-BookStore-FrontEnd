@@ -25,8 +25,6 @@ class OrderPlaced extends Component {
     this.props.history.push({ pathname: "/" });
   };
   render() {
-    console.log("in check out class",this.props.history.location.state);
-    
     return (
       <div
         style={{
@@ -64,8 +62,8 @@ class OrderPlaced extends Component {
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell align="center">ebookStore@gmail.com </TableCell>
-                    <TableCell align="center">7798917132</TableCell>
+                    <TableCell align="center">dabhade904@gmail.com</TableCell>
+                    <TableCell align="center">8888948943</TableCell>
                     <TableCell align="center">
                       Malhotra Chambers, First Floor, Govandi East, Mumbai,
                       Maharashtra 400088
@@ -82,7 +80,7 @@ class OrderPlaced extends Component {
               color="primary"
               onClick={this.ContinueShppling}
             >
-              CONTINUE SHOOPING
+              CONTINUE SHOPPING
             </Button>
           </div>
         </div>

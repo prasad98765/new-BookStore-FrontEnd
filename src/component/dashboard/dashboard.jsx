@@ -9,7 +9,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import "../dashboard/dashboard.css";
 class dashboard extends Component {
   constructor(props) {
     super(props);

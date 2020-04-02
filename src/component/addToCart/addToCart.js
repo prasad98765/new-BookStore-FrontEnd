@@ -36,8 +36,6 @@ class CartIcon extends Component {
       };
 
     checkout = (data) => {
-        console.log("in add to cart class " ,data);
-        
         this.props.history.push( { pathname : '/checkout', state :data })
     }
 
@@ -70,8 +68,11 @@ class CartIcon extends Component {
         localStorage.setItem("add to Cart",JSON.stringify(this.state.item));
     }
     render() {
+        
+        
      var Books = this.state.item.map((item, i) => {
             this.state.purchaseBookIndividualCount.push(1)
+            console.log("aaaaa",this.state.purchaseBookIndividualCount);
             if (item != undefined) {
                 console.log(item.Title);
                 return (

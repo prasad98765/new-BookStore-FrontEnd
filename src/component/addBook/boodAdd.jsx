@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
 import { Typography } from "@material-ui/core";
 import "../addBook/bookAdd.css";
@@ -34,11 +36,10 @@ class AddBook extends Component {
         IMAGEPATH: ""
       },
       open: false,
-      setOpen: false
+      setOpen: true
     };
 
     this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange = e => {
@@ -80,6 +81,7 @@ class AddBook extends Component {
       default:
         break;
     }
+    
     this.setState({ formErrors, [name]: value }, () => console.log(this.state));
   };
   getfile = async event => {
@@ -90,22 +92,15 @@ class AddBook extends Component {
       this.setState({ IMAGEPATH: res.data.url });
     });
   };
-  increment = async () => {
-    await this.setState(previousState => {
-      this.setState({ COUNT: previousState.COUNT + 1 });
-    });
-  };
-
-  decrement = async () => {
-    if (this.state.COUNT > 0) {
-      this.setState(previousState => {
-        this.setState({ COUNT: previousState.COUNT - 1 });
-      });
-    }
-  };
 
   getbookdetails = () => {
-    this.setState({ condition: false });
+    if(this.state.TITLE == null || this.state.AUTHOR == null || this.state.YEAR == null ||this.state.RATING == null || this.state.DESCRIPTION == null){
+      this.setState({ open: true });
+      this.setState({ setOpen: true }); 
+    }else{
+      this.setState({ open: true });
+      this.setState({ setOpen: false }); 
+    }
     const bookDetails = {
       TITLE: this.state.TITLE,
       AUTHOR: this.state.AUTHOR,
@@ -117,26 +112,17 @@ class AddBook extends Component {
       NOOFBOOKS: this.state.COUNT
     };
     APIcall.BookDetails(bookDetails).then(res => {});
-    this.setState({ open: true });
-    this.setState({ setOpen: true });
+    
   };
 
-  getCountIncrement = () => {
-    this.setState({
-      COUNT: this.state.COUNT + 1
-    });
-  };
-
-  handleClose(event, reason) {
+  handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    this.setState({ setOpen: false });
     this.setState({ open: false });
-  }
+  };
 
   render() {
-    console.log(this.state.COUNT);
 
     const { formErrors } = this.state;
     return (
@@ -248,7 +234,7 @@ class AddBook extends Component {
                 onChange={this.handleChange}
                 type="Number"
                 className="FormField__Input"
-                placeholder="Rating of book"
+                placeholder="Number of book"
                 name="COUNT"
               />
             </div>
@@ -261,7 +247,8 @@ class AddBook extends Component {
                 onChange={this.getfile}
               />
             </div>
-            <div className="FormField">
+          </form>
+          <div className="FormField">
               <button
                 type="submit"
                 className="FormField__Button mr-20"
@@ -269,27 +256,68 @@ class AddBook extends Component {
               >
                 Submit
               </button>
-              {this.state.setOpen ? (
-                <div>
-                  <Snackbar
-                    open={this.state.open}
-                    autoHideDuration={6000}
-                    onClose={this.handleClose}
-                    message="Successfully Book Added"
-                  />
-                </div>
-              ) : (
-                <div>
-                  <Snackbar
-                    open={this.state.open}
-                    autoHideDuration={6000}
-                    onClose={this.handleClose}
-                    message="Please enter all the details"
-                  />
-                </div>
-              )}
             </div>
-          </form>
+          {this.state.setOpen ? (
+              <div>
+               <Snackbar
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                  }}
+                  open={this.state.open}
+                  autoHideDuration={2000}
+                  onClose={this.handleClose}
+                  ContentProps={{
+                    "aria-describedby": "message-id"
+                  }}
+                  message={
+                    <span id="message-id">
+                    Please Enter All The Required Details
+                     </span>
+                  }
+                  action={[
+                    <IconButton
+                      key="close"
+                      aria-label="Close"
+                      color="inherit"
+                      onClick={this.handleClose}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  ]}
+                />
+              </div>
+            ) : (
+              <div>
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                  }}
+                  open={this.state.open}
+                  autoHideDuration={2000}
+                  onClose={this.handleClose}
+                  ContentProps={{
+                    "aria-describedby": "message-id"
+                  }}
+                  message={
+                    <span id="message-id">
+                      Congratulations! Your Book is Added In Data Base
+                     </span>
+                  }
+                  action={[
+                    <IconButton
+                      key="close"
+                      aria-label="Close"
+                      color="inherit"
+                      onClick={this.handleClose}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  ]}
+                />
+              </div>
+            )}
         </div>
       </div>
     );

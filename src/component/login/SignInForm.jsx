@@ -104,7 +104,7 @@ class SignInForm extends Component {
       style={{
         marginTop: "3%",
         marginLeft: "30%",
-        height: "250px",
+        height: "auto",
         width: "45%",
         borderStyle: "outset"
       }}>

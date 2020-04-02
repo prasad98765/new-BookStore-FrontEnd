@@ -20,6 +20,8 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import Snackbar from "@material-ui/core/Snackbar";
+import CloseIcon from "@material-ui/icons/Close";
 
 var APIcall = require("../../congfiguration/BookStoreCallAPI");
 
@@ -96,14 +98,15 @@ class PrimarySearchAppBar extends React.Component {
     this.state = {
       bookSearch: "",
       searchedBookList: [],
-      wishList: ["a"],
+      wishList: [],
       count: 1,
       wishCount: 1,
       login:true,
       set: true,
       name: null,
       Author: null,
-      Price: null
+      Price: null,
+      open:false
     };
   }
 
@@ -117,6 +120,7 @@ class PrimarySearchAppBar extends React.Component {
 
   onSubmit = event => {
     this.setState({login : false})
+    this.setState({open:true})
     if (this.props.count == 0) {
       this.setState({ set: true });
     } else {
@@ -148,10 +152,14 @@ class PrimarySearchAppBar extends React.Component {
     }
 
   }
-  backtohomePage =()=> {
-    this.props.homepage()
-    
-  }
+
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ open: false });
+  };
 
   render() {
     console.log("rex wish list book", this.props.wishList);
@@ -170,7 +178,7 @@ class PrimarySearchAppBar extends React.Component {
       >
         <MenuItem onClick={this.handleMenuClose}>
           <a hrerf="/TextField"> Login</a>
-        </MenuItem>
+        </MenuItem>  
       </Menu>
     );
 
@@ -204,7 +212,7 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static" style={{ backgroundColor: "#800000", position: "fixed", marginTop: "-8%" }}>
           <Toolbar>
-            <IconButton style={{ marginLeft: "11%" }} color="inherit" onClick = {this.backtohomePage}>
+            <IconButton style={{ marginLeft: "11%" }} color="inherit">
               <MenuBookIcon
                 style={{ width: 40, fontSize: "33px", marginTop: "-7px" }}
               />
@@ -243,6 +251,33 @@ class PrimarySearchAppBar extends React.Component {
                   <ShoppingCartIcon />
                 </Badge>
               </IconButton>
+              <Snackbar
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                  }}
+                  open={this.state.open}
+                  autoHideDuration={2000}
+                  onClose={this.handleClose}
+                  ContentProps={{
+                    "aria-describedby": "message-id"
+                  }}
+                  message={
+                    <span id="message-id">
+                      Cart is empty
+                    </span>
+                  }
+                  action={[
+                    <IconButton
+                      key="close"
+                      aria-label="Close"
+                      color="inherit"
+                      onClick={this.handleClose}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  ]}
+                />
               <PopupState variant="popover" popupId="demo-popup-popover">
                 {popupState => (
                   <div>
@@ -276,16 +311,6 @@ class PrimarySearchAppBar extends React.Component {
                   </div>
                 )}
               </PopupState>
-
-
-              {/* <IconButton
-                aria-owns={isMenuOpen ? "material-appbar" : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton> */}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
@@ -310,6 +335,3 @@ PrimarySearchAppBar.propTypes = {
 };
 
 export default withStyles(styles)(PrimarySearchAppBar);
-
-
-

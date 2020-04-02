@@ -56,6 +56,7 @@ class CustomerDetails extends Component {
   };
 
   editDetails = () => {
+    this.setState({show : true})
     this.setState((this.state = { formfilled: !this.state.formfilled }));
     this.setState((this.state = { buttonHide: !this.state.buttonHide }));
     this.setState((this.state = { hidden: !this.state.hidden }));
@@ -214,8 +215,6 @@ class CustomerDetails extends Component {
     APICall.userDetails(details).then(res => {
       this.setState({ orderId: res.data.data._id });
       this.props.checkout(res.data.data._id);
-      console.log("id",res.data.data._id);
-      
       APICall.sendEmail({
         ID: res.data.data._id,
         EMAIL: res.data.data.EMAIL,
@@ -230,8 +229,6 @@ class CustomerDetails extends Component {
   };
 
   render() {
-    console.log("in cust Details class",this.state.item[0].Title);
-
     const { errors } = this.state;
     var Books = this.state.item.map((item, i) => {
       this.orderBook = item.Title + " ";
@@ -499,11 +496,11 @@ class CustomerDetails extends Component {
         {this.state.divHide === true ? (
           <div>
             <div
-              style={{
+               style={{
                 borderStyle: "groove",
                 marginLeft: "17%",
                 marginRight: "10%",
-                marginTop: "2.9%",
+                marginTop: "1%",
                 marginBottom: "6.9%",
                 width: "55%"
               }}
@@ -511,7 +508,7 @@ class CustomerDetails extends Component {
               <div className="orderSummary">Order Summary</div>
               {Books}
               <div className="total-price">
-                <p id="totalprice">Total Price: Rs.{this.props.totalAmount}</p>
+                <p id="totalprice"style={{margin:"-4%",marginLeft:"1%"}}>Total Price: Rs.{this.props.totalAmount}</p>
               </div>
               <div style={{ display: this.state.divHide ? "true" : "false" }}>
                 <button
